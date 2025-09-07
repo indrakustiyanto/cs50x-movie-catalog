@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <link href="/src/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1 class="text-3xl font-bold mb-6">🎬 Movie Search</h1>
+    <div class="flex gap-2 mb-6 w-full max-w-lg">
+    <input id="search" type="text" placeholder="Search movies..." 
+      class="flex-1 px-4 py-2 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 border">
+    <button id="searchBtn" 
+      class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg font-semibold">
+      Search
+    </button>
+  </div>
+
+  <div id="results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+    <!-- Movie cards will go here -->
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
