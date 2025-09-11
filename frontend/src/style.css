@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+@theme {
+  /* custom font */
+  --font-lato: 'Lato', sans-serif;
+
+  /* custom color */
+    /* main color */
+    --color-summer-sky: #228EE5;
+    --color-alice-blue: #EBFAFF;
+    --color-deep-cerise: #D5228D;
+
+    /* neutral colors */
+    --color-gray: #808080;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+
+    /* background */
+    --color-dark-green: #030A1B;
+    
+    /* semantic colors */
+    --color-alizarin: #E52222;
+    --color-golden-fizz: #E5DB22;
+    --color-spring-green: #00FB71;
+}

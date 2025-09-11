@@ -29,17 +29,16 @@ db = SQL(db_URL)
 # third party API key
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
-@app.route('/api/users', methods=['GET'])
-def users():
-    return jsonify(
-        {
-            "users": [
-                "indra",
-                "fauzan",
-                "fauzi"
-            ]
-        }
-    )
+# routes
+@app.route('/', methods=['GET'])
+def index():
+    url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
+    }   
+    res = requests.get(url, headers=headers)
+    return jsonify(res.json())
 
 @app.route('/check', methods=['GET'])
 def check():
