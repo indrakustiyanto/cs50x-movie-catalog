@@ -19,55 +19,17 @@ async function fetchTrending() {
 fetchTrending();
 
 // NAV FUNCTIONALITY
+
 // Search Icon Click
 const searchIcon = document.querySelector('.js-search-icon');
 const searchBar = document.querySelector('.js-search');
 let condition = false;
 
-// searchIcon.addEventListener('click', () => {
-//   if (condition === false) {
-//     document.querySelector('.js-nav-center').innerHTML = `
-//       <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-300 ease-in-out">`
-//   }
-//   else {
-//     document.querySelector('.js-nav-center').innerHTML = `
-//     <ul class="flex items-center justify-center gap-[2rem] w-max h-full text-[1rem] font-semibold">
-//       <li class="flex items-center justify-center h-full w-max">
-//         <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
-//         after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
-//         hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Home</a>
-//       </li>
-//       <li class="flex items-center justify-center h-full">
-//         <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
-//         after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
-//         hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Movies</a>
-//       </li>
-//       <li class="flex items-center justify-center h-full">
-//         <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
-//         after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
-//         hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
-//       </li>
-//       <li class="flex items-center justify-center h-full">
-//         <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
-//         after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
-//         hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
-//       </li>
-//       <li class="flex items-center justify-center h-full">
-//         <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
-//         after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
-//         hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
-//       </li>
-//     </ul>`
-//   };
-
-//   condition = !condition;
-//   console.log(condition);
-// });
-
 searchIcon.addEventListener('click', () => {
   if (condition === false) {
     searchBar.innerHTML = `
-      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm">`
+      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm">
+      <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute left-0 right-0 z-50 rounded-lg"></div>`
   }
   else {
     searchBar.innerHTML = ``;
@@ -85,3 +47,33 @@ searchIcon.addEventListener('click', () => {
   condition = !condition;
   console.log(condition);
 })
+
+// search bar functionality
+searchBar.addEventListener('input', async () => {
+  const query = document.getElementById('search').value;
+  const dropdown = document.querySelector('.js-dropdown');
+
+  // fetch api with query
+  try {
+    let response = await axios.get(`http://127.0.0.1:5000/search?query=${query}`)
+    let result = response.data.results;
+    
+    dropdown.classList.remove('hidden');
+    dropdown.innerHTML  = '';
+
+    result.forEach(movie => {
+      dropdown.innerHTML += `
+        <div class="flex flex-row gap-[1rem] p-2 border-b border-white hover:bg-[#FFFFFF1A] cursor-pointer justify-start items-center">
+          <img src="https://image.tmdb.org/t/p/w92/${movie.poster_path}" alt="${movie.title}" class="w-[2rem] h-[3rem] object-cover mx-auto mb-1 border ">
+          <p class="flex-1 text-white text-sm">${movie.title}</p>
+        </div>
+      `
+    })
+  }
+  catch (error) {
+    console.error(error);
+    dropdown.classList.add('hidden');
+    dropdown.innerHTML = '';
+  }
+  
+});

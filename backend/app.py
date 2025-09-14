@@ -47,13 +47,14 @@ def check():
 
 @app.route('/search', methods=['GET'])
 def search():
-    query = request.args.get('q')
+    query = request.args.get('query')
     url = f'https://api.themoviedb.org/3/search/movie?query={query}'
     headers = {
         'Authorization': f'Bearer {TMDB_ACCESS_TOKEN}',
     }
 
     res = requests.get(url, headers=headers)
+    print(query)
     return jsonify(res.json())
 
 if __name__ == '__main__':
