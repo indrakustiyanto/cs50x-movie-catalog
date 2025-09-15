@@ -1,22 +1,9 @@
-// function to fetch trending movies and display the backdrop of the first movie and poster
+import Swiper from 'swiper';
+import {Navigation, Pagination} from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
-async function fetchTrending() {
-  const response = await axios.get('http://127.0.0.1:5000/')
-  const index = response.data.results;
-  console.log(index);
-
-  const target = document.querySelector('.poster-container');
-
-  target.innerHTML = '';
-  
-  const moviebackdrop = `
-  
-    <img src="https://image.tmdb.org/t/p/original/${index[0].backdrop_path}" alt="${index[0].title}" class="w-screen h-screen object-cover brightness-50">`
-
-  target.innerHTML += moviebackdrop;
-}
-
-fetchTrending();
 
 // NAV FUNCTIONALITY
 
@@ -58,6 +45,7 @@ searchBar.addEventListener('input', async () => {
     let response = await axios.get(`http://127.0.0.1:5000/search?query=${query}`)
     let result = response.data.results;
     
+    // display results in dropdown
     dropdown.classList.remove('hidden');
     dropdown.innerHTML  = '';
 
@@ -77,3 +65,63 @@ searchBar.addEventListener('input', async () => {
   }
   
 });
+
+// function to fetch trending movies and display the backdrop of the first movie and poster
+
+// init swiper
+const swiper = new Swiper('.swiper', {
+  //optional parameters
+  direction: 'horizontal',
+  loop: true,
+  modules: [Navigation, Pagination],
+  // main slider settings
+  slidesPerView: 1,
+  spaceBetween: 0,
+  effect: 'fade',
+    
+  // init pagination
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+
+  // init navigation
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  }
+});
+
+async function fetchTrending() {
+  const response = await axios.get('http://127.0.0.1:5000/')
+  const index = response.data.results.slice(0, 10);
+  console.log(index);
+
+  const target = document.querySelector('.swiper-wrapper');
+
+  target.innerHTML = '';
+  
+  index.forEach(movie => {
+    target.innerHTML += `
+    <div class="swiper-slide">
+      <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50">
+      <div class="js-detailed-backdrop absolute left-25 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start bg-[#0000000b]">
+        <p class="mb-2 text-white text-5xl font-bold mt-4 ml-4">${movie.title}</p>
+        <p class="w-full h-[2.5rem] line-clamp-2 text-white text-sm mt-2 ml-4">${movie.overview}</p>
+        <div class="ml-4 flex flex-row gap-2 items-center">
+          <img src="/assets/tmdb-logo.png" alt="imdb" class="w-10 h-auto">
+          <p class="text-white text-sm">${movie.vote_average} / 10</p>
+        </div>
+        <button class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">Watch Now</button>
+        
+      </div>
+    </div>`;
+
+    // update swiper after adding slides
+    swiper.update();
+    
+  });
+}
+
+fetchTrending();
+
