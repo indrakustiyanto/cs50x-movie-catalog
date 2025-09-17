@@ -1,8 +1,11 @@
 import Swiper from 'swiper';
-import {Navigation, Pagination} from 'swiper/modules';
+import {Navigation, Pagination, FreeMode, EffectFade, Autoplay} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/free-mode';
+import 'swiper/css/effect-fade';
+
 
 
 // NAV FUNCTIONALITY
@@ -69,15 +72,19 @@ searchBar.addEventListener('input', async () => {
 // function to fetch trending movies and display the backdrop of the first movie and poster
 
 // init swiper
-const swiper = new Swiper('.swiper', {
+const swiper = new Swiper('.js-hero-swiper', {
   //optional parameters
   direction: 'horizontal',
   loop: true,
-  modules: [Navigation, Pagination],
+  modules: [Navigation, Pagination, EffectFade, Autoplay],
   // main slider settings
   slidesPerView: 1,
   spaceBetween: 0,
   effect: 'fade',
+  autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+  },
     
   // init pagination
   pagination: {
@@ -92,20 +99,31 @@ const swiper = new Swiper('.swiper', {
   }
 });
 
+const trendingSwiper = new Swiper('.js-trending-swiper', {
+  //optional parameters
+  direction: 'horizontal',
+  modules: [Navigation, Pagination, FreeMode],
+  loop: false,
+
+  // main slider settings
+  freeMode: true,
+  slidesPerView: "auto",
+  spaceBetween: 30,
+})
+
 async function fetchTrending() {
   const response = await axios.get('http://127.0.0.1:5000/')
   const index = response.data.results.slice(0, 10);
-  console.log(index);
-
-  const target = document.querySelector('.swiper-wrapper');
+  const target = document.querySelector('.js-hero-swiper .swiper-wrapper');
 
   target.innerHTML = '';
   
   index.forEach(movie => {
     target.innerHTML += `
-    <div class="swiper-slide">
+    <div class="swiper-slide transition duration-100 ease-in-out">
       <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50">
-      <div class="js-detailed-backdrop absolute left-25 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start bg-[#0000000b]">
+       <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent"></div>
+      <div class="js-detailed-backdrop absolute left-25 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start">
         <p class="mb-2 text-white text-5xl font-bold mt-4 ml-4">${movie.title}</p>
         <p class="w-full h-[2.5rem] line-clamp-2 text-white text-sm mt-2 ml-4">${movie.overview}</p>
         <div class="ml-4 flex flex-row gap-2 items-center">
@@ -118,10 +136,38 @@ async function fetchTrending() {
     </div>`;
 
     // update swiper after adding slides
-    swiper.update();
+    // swiper.update();
     
   });
 }
 
 fetchTrending();
 
+// list movies function
+async function listMovies() {
+  // fetch api
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/trending')
+    const movies = response.data.results;
+    console.log(movies);
+
+    // render movies
+    const target = document.querySelector('.js-trending-swiper .swiper-wrapper');
+    target.innerHTML = '';
+
+    movies.forEach(movie => {
+      target.innerHTML +=`
+      <div class="swiper-slide !w-auto">
+        <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+          <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+        </div>
+      </div>`
+    });
+    trendingSwiper.update();
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+listMovies();

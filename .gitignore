@@ -116,3 +116,6 @@ site_media/
 media/
 staticfiles/
 local_settings.py
+
+# last note
+lastNote.txt

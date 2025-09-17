@@ -54,8 +54,19 @@ def search():
     }
 
     res = requests.get(url, headers=headers)
-    print(query)
     return jsonify(res.json())
+
+@app.route('/trending', methods=["GET"])
+def trending():
+    url = "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": f'Bearer {TMDB_ACCESS_TOKEN}'
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

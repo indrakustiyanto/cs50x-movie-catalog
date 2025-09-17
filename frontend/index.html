@@ -86,12 +86,24 @@
 
     <!-- start: main -->
     <main>
+      <!-- backdrop main banner(poster) -->
       <section class="poster">
-        <div class="relative swiper">
+        <div class="relative swiper js-hero-swiper">
           <div class="swiper-wrapper"></div>
           <div class="swiper-pagination"></div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
+        </div>
+      </section>
+
+      <!-- movies trending list -->
+      <section class="js-movie-segmentation mt-4 mb-16">
+        <div class="px-[1rem] flex justify-between items-end mt-4 mb-2.5">
+          <h2 class="text-xl">Trends</h2>
+          <p class="text-blue-500">See More &rarr;</p>
+        </div>
+        <div class="swiper js-trending-swiper">
+          <div class="swiper-wrapper"></div>
         </div>
       </section>
     </main>
