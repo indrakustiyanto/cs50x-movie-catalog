@@ -6,25 +6,25 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import 'swiper/css/effect-fade';
 
-
-
 // NAV FUNCTIONALITY
 
 // Search Icon Click
 const searchIcon = document.querySelector('.js-search-icon');
 const searchBar = document.querySelector('.js-search');
+const navLink = document.querySelector('.js-nav-link');
 let condition = false;
 
 searchIcon.addEventListener('click', () => {
   if (condition === false) {
     searchBar.innerHTML = `
-      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm">
-      <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute left-0 right-0 z-50 rounded-lg"></div>`
+      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm" autofocus="on">
+      <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute right-[-50%] z-50 rounded-lg"></div>`
+    
   }
   else {
     searchBar.innerHTML = ``;
   }
-
+  navLink.classList.toggle('max-xl:hidden');
   // click outside to close search bar
   document.addEventListener('click', (event) => {
     if (!searchIcon.contains(event.target) && !searchBar.contains(event.target)) {
@@ -35,8 +35,25 @@ searchIcon.addEventListener('click', () => {
    
 
   condition = !condition;
-  console.log(condition);
 })
+
+// Hamburger Menu Click
+const hamburger = document.querySelector('.js-hamburger');
+const dropDown = document.querySelector('.js-dropdown-menu');
+let hamCondition = false;
+
+hamburger.addEventListener('click', () => {
+  dropDown.classList.toggle('hidden');
+  hamCondition = !hamCondition;
+  
+  // click outside to close hamburger menu
+  document.addEventListener('click', (event) => {
+    if (!hamburger.contains(event.target) && !dropDown.contains(event.target)) {
+      hamCondition = true;
+      dropDown.classList.add('hidden');
+    }
+  });
+});
 
 // search bar functionality
 searchBar.addEventListener('input', async () => {
@@ -66,10 +83,9 @@ searchBar.addEventListener('input', async () => {
     dropdown.classList.add('hidden');
     dropdown.innerHTML = '';
   }
-  
 });
 
-// function to fetch trending movies and display the backdrop of the first movie and poster
+// fetch main hero
 
 // init swiper
 const swiper = new Swiper('.js-hero-swiper', {
@@ -82,7 +98,7 @@ const swiper = new Swiper('.js-hero-swiper', {
   spaceBetween: 0,
   effect: 'fade',
   autoplay: {
-        delay: 3500,
+        delay: 5000,
         disableOnInteraction: false,
   },
     
@@ -115,15 +131,16 @@ async function fetchTrending() {
   const response = await axios.get('http://127.0.0.1:5000/')
   const index = response.data.results.slice(0, 10);
   const target = document.querySelector('.js-hero-swiper .swiper-wrapper');
+  const movieDesc = document.querySelector('.js-sm-movie-desc');
 
   target.innerHTML = '';
   
   index.forEach(movie => {
     target.innerHTML += `
-    <div class="swiper-slide transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50">
-       <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent"></div>
-      <div class="js-detailed-backdrop absolute left-25 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start">
+    <div class="swiper-slide relative transition duration-100 ease-in-out">
+      <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50 max-sm:h-[75vh]">
+       <div class="absolute inset-0 max-sm:top-0 max-sm:left-0 max-sm:w-screen max-sm:h-[75vh] bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent"></div>
+      <div class="max-sm:hidden js-detailed-backdrop absolute left-15 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start">
         <p class="mb-2 text-white text-5xl font-bold mt-4 ml-4">${movie.title}</p>
         <p class="w-full h-[2.5rem] line-clamp-2 text-white text-sm mt-2 ml-4">${movie.overview}</p>
         <div class="ml-4 flex flex-row gap-2 items-center">
@@ -131,14 +148,20 @@ async function fetchTrending() {
           <p class="text-white text-sm">${movie.vote_average} / 10</p>
         </div>
         <button class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">Watch Now</button>
-        
+      </div>
+        <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-4 left-0 w-full px-4 flex-col z-50">
+        <p class="mb-2 text-white text-2xl font-bold">${movie.title}</p>
+        <p class="line-clamp-2 text-white text-sm">${movie.overview}</p>
+        <div class="flex flex-row gap-2 items-center mt-2">
+          <img src="/assets/tmdb-logo.png" alt="imdb" class="w-8 h-auto">
+          <p class="text-white text-sm">${movie.vote_average} / 10</p>
+        </div>
+        <button class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 hover:bg-red-700 transition">Watch Now</button>
       </div>
     </div>`;
+  })
 
-    // update swiper after adding slides
-    // swiper.update();
-    
-  });
+  swiper.update();
 }
 
 fetchTrending();

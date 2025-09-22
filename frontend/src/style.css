@@ -22,4 +22,7 @@
     --color-alizarin: #E52222;
     --color-golden-fizz: #E5DB22;
     --color-spring-green: #00FB71;
+
+    /* breakpoint */
+    --breakpoint-md: 950px;
 }
