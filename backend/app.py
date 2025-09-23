@@ -32,7 +32,7 @@ TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 # routes
 @app.route('/', methods=['GET'])
 def index():
-    url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+    url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
@@ -67,6 +67,30 @@ def trending():
 
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
+
+@app.route('/popular', methods=["GET"])
+def popular():
+    url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@app.route('/series')
+def series():
+    url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+# end routes
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

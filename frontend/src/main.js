@@ -127,7 +127,31 @@ const trendingSwiper = new Swiper('.js-trending-swiper', {
   spaceBetween: 30,
 })
 
-async function fetchTrending() {
+const popularSwiper = new Swiper('.js-popular-swiper', {
+  //optional parameters
+  direction: 'horizontal',
+  modules: [Navigation, Pagination, FreeMode],
+  loop: false,
+
+  // main slider settings
+  freeMode: true,
+  slidesPerView: "auto",
+  spaceBetween: 30,
+})
+
+const seriesSwiper = new Swiper('.js-series-swiper', {
+  //optional parameters
+  direction: 'horizontal',
+  modules: [Navigation, Pagination, FreeMode],
+  loop: false,
+
+  // main slider settings
+  freeMode: true,
+  slidesPerView: "auto",
+  spaceBetween: 30,
+})
+
+async function fetchHero() {
   const response = await axios.get('http://127.0.0.1:5000/')
   const index = response.data.results.slice(0, 10);
   const target = document.querySelector('.js-hero-swiper .swiper-wrapper');
@@ -164,33 +188,62 @@ async function fetchTrending() {
   swiper.update();
 }
 
-fetchTrending();
+fetchHero();
 
-// list movies function
-async function listMovies() {
+// func: fecth movie list api (home)
+async function listMovies(segmentation) {
   // fetch api
   try {
-    const response = await axios.get('http://127.0.0.1:5000/trending')
+    const response = await axios.get(`http://127.0.0.1:5000/${segmentation}`)
     const movies = response.data.results;
-    console.log(movies);
-
-    // render movies
-    const target = document.querySelector('.js-trending-swiper .swiper-wrapper');
-    target.innerHTML = '';
-
-    movies.forEach(movie => {
-      target.innerHTML +=`
-      <div class="swiper-slide !w-auto">
-        <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
-          <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
-        </div>
-      </div>`
-    });
-    trendingSwiper.update();
+    return movies;
   }
   catch (error) {
     console.error(error);
   }
 }
 
-listMovies();
+// render trending movies list
+let trending = await listMovies('trending');
+const target = document.querySelector('.js-trending-swiper .swiper-wrapper');
+target.innerHTML = '';
+
+trending.forEach(movie => {
+  target.innerHTML +=`
+  <div class="swiper-slide !w-auto">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+    </div>
+  </div>`
+});
+trendingSwiper.update();
+
+// render popular movies list
+let popular = await listMovies('popular');
+const swiperPopular = document.querySelector('.js-popular-swiper .swiper-wrapper');
+swiperPopular.innerHTML = '';
+
+popular.forEach(movie => {
+  swiperPopular.innerHTML += `
+  <div class="swiper-slide !w-auto">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+    </div>
+  </div>`
+});
+popularSwiper.update();
+
+// render popular movies list
+let series = await listMovies('series');
+const swiperSeries = document.querySelector('.js-series-swiper .swiper-wrapper');
+swiperSeries.innerHTML = '';
+
+series.forEach(movie => {
+  swiperSeries.innerHTML += `
+  <div class="swiper-slide !w-auto">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+    </div>
+  </div>`
+});
+seriesSwiper.update();
