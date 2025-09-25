@@ -9,12 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>The Mowvie</title>
   </head>
   <body class="relative font-lato bg-dark-green text-white">
 
     <!-- start: header -->
-    <header class="flex justify-center items-center w-screen h-[6.75rem] fixed top-0 left-0 z-50">
-      <div class="relative flex justify-between items-center p-[1px] w-[70%] h-[50%] rounded-3xl bg-linear-to-r from-[#228EE5FF] via-[#228EE52E] via-[#228EE524] to-[#228EE5FF] max-md:w-[90%]">
+    <header class="flex justify-center items-center w-screen h-[6.75rem] top-0 left-0 z-50">
+      <div class="relative flex justify-between items-center p-[1px] w-[70%] h-[50%] rounded-3xl bg-linear-to-r from-[#228EE5FF] via-[#228EE524] to-[#228EE5FF] max-md:w-[90%] z-50">
         <nav class=" absolute inset-0 flex justify-between items-center px-[1rem] rounded-3xl backdrop-blur-2xl bg-[#1A19194D] max-md:flex-row-reverse">
         <!-- nav logo -->
         <div class="w-[3.75rem] h-[3.75rem]">
@@ -56,7 +57,7 @@
         </div>
 
         <!-- searc bar -->
-         <div class="js-search relative"></div>
+         <div class="js-search relative" autofocus="on"></div>
 
         <!-- nav profile -->
         <div class="relative flex flex-row">
@@ -128,7 +129,7 @@
     <!-- end header -->
 
     <!-- start: main -->
-    <main>
+    <main class="mt-[-6.75rem] z-1">
       <!-- backdrop main hero -->
       <section class="poster mb-7">
         <div class="relative swiper js-hero-swiper">
@@ -138,9 +139,10 @@
           <div class="swiper-button-next max-sm:hidden"></div>
         </div>
       </section>
+      <!-- END: backdrop main hero -->
 
       <!-- movies trending list -->
-      <section class="js-movie-segmentation mt-4 mb-16">
+      <section class="js-movie-segmentation mt-4 mb-16 p-4 pt-0 bg-linear-to-bl from-[#e93f9d07] from-1% via-transparent to-[#228de50f]">
         <div class="px-[1rem] flex justify-between items-end mt-4 mb-2.5">
           <h2 class="text-3xl bold">Trends</h2>
           <p class="text-blue-500">See More &rarr;</p>
@@ -171,8 +173,60 @@
           <div class="swiper-wrapper"></div>
         </div>
       </section>
-
     </main>
+
+    <footer class="flex flex-col items-center w-full bg-linear-to-b from-dark-green to-sky-950 text-gray-400 py-6 px-4 text-center text-sm">
+      <h3 class="mb-4 font-bold tracking-wide">THE MOWVIE</h3>
+      <div class="mb-3 font-medium h-full w-max flex justify-center items-center max-md:hidden shrink">
+          <ul class="flex items-center justify-center gap-[2rem] w-max h-full text-[1rem] font-semibold">
+            <li class="flex items-center justify-center h-full w-max">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Home</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Movies</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="leading-[1em]">
+          <p class="mb-2">
+            Design inspired from <a href="https://www.figma.com/community" target="_blank" class="text-[#56CAF8] hover:underline">Figma Community</a>
+          </p>
+          <p class="mb-2">
+            Movie data & images provided by 
+            <a href="https://www.themoviedb.org/" target="_blank" class="text-[#56CAF8] hover:underline">TMDB</a>
+          </p>
+          <p class="mb-2">
+            Developed by <span class="text-white font-semibold">Indra</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            © 2025 Indra. All rights reserved.
+          </p>
+        </div>
+        
+      <!-- 
+      
+      
+    </footer> -->
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="src/main.js"></script>

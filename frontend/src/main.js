@@ -17,14 +17,15 @@ let condition = false;
 searchIcon.addEventListener('click', () => {
   if (condition === false) {
     searchBar.innerHTML = `
-      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm" autofocus="on">
+      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm" autofocus>
       <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute right-[-50%] z-50 rounded-lg"></div>`
-    
+    searchBar.focus();
   }
   else {
     searchBar.innerHTML = ``;
   }
   navLink.classList.toggle('max-xl:hidden');
+
   // click outside to close search bar
   document.addEventListener('click', (event) => {
     if (!searchIcon.contains(event.target) && !searchBar.contains(event.target)) {
@@ -211,7 +212,7 @@ target.innerHTML = '';
 trending.forEach(movie => {
   target.innerHTML +=`
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
       <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
     </div>
   </div>`
@@ -226,14 +227,14 @@ swiperPopular.innerHTML = '';
 popular.forEach(movie => {
   swiperPopular.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
       <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
     </div>
   </div>`
 });
 popularSwiper.update();
 
-// render popular movies list
+// render popular series list
 let series = await listMovies('series');
 const swiperSeries = document.querySelector('.js-series-swiper .swiper-wrapper');
 swiperSeries.innerHTML = '';
@@ -241,7 +242,7 @@ swiperSeries.innerHTML = '';
 series.forEach(movie => {
   swiperSeries.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition duration-100 ease-in-out">
+    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
       <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
     </div>
   </div>`
