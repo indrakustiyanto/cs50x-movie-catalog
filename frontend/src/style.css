@@ -26,3 +26,9 @@
     /* breakpoint */
     --breakpoint-md: 950px;
 }
+
+/* custom css */
+
+.js-active::after {
+  @apply scale-x-100 [box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]
+}

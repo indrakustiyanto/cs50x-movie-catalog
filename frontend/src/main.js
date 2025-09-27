@@ -6,7 +6,19 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import 'swiper/css/effect-fade';
 
-// NAV FUNCTIONALITY
+// *** NAV FUNCTIONALITY ***
+
+// active nav link tab
+// toggle active nav link
+const activeTab = document.querySelectorAll('.js-nav-link-item a');
+const activated = document.querySelector("js-active")
+activeTab.forEach(tab => {
+  tab.addEventListener("click", function() {
+    activeTab.forEach(tabs => tabs.classList.remove("js-active"));
+    this.classList.add("js-active");
+    activated.classList.add("b")
+  })
+})
 
 // Search Icon Click
 const searchIcon = document.querySelector('.js-search-icon');
@@ -65,6 +77,7 @@ searchBar.addEventListener('input', async () => {
   try {
     let response = await axios.get(`http://127.0.0.1:5000/search?query=${query}`)
     let result = response.data.results;
+    console.log(result)
     
     // display results in dropdown
     dropdown.classList.remove('hidden');
@@ -72,10 +85,12 @@ searchBar.addEventListener('input', async () => {
 
     result.forEach(movie => {
       dropdown.innerHTML += `
+      <a href="detailed.html?id=${movie.id}">
         <div class="flex flex-row gap-[1rem] p-2 border-b border-white hover:bg-[#FFFFFF1A] cursor-pointer justify-start items-center">
           <img src="https://image.tmdb.org/t/p/w92/${movie.poster_path}" alt="${movie.title}" class="w-[2rem] h-[3rem] object-cover mx-auto mb-1 border ">
           <p class="flex-1 text-white text-sm">${movie.title}</p>
         </div>
+      </a>
       `
     })
   }
@@ -86,7 +101,8 @@ searchBar.addEventListener('input', async () => {
   }
 });
 
-// fetch main hero
+
+// *** MAIN SECTION FUNCTIONALITY ***
 
 // init swiper
 const swiper = new Swiper('.js-hero-swiper', {
@@ -152,6 +168,8 @@ const seriesSwiper = new Swiper('.js-series-swiper', {
   spaceBetween: 30,
 })
 
+
+// fetch main
 async function fetchHero() {
   const response = await axios.get('http://127.0.0.1:5000/')
   const index = response.data.results.slice(0, 10);
@@ -164,7 +182,8 @@ async function fetchHero() {
     target.innerHTML += `
     <div class="swiper-slide relative transition duration-100 ease-in-out">
       <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50 max-sm:h-[75vh]">
-       <div class="absolute inset-0 max-sm:top-0 max-sm:left-0 max-sm:w-screen max-sm:h-[75vh] bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent"></div>
+       <div class="absolute inset-0 max-sm:top-0 max-sm:left-0 max-sm:w-screen max-sm:h-[75vh] bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent">
+
       <div class="max-sm:hidden js-detailed-backdrop absolute left-15 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start">
         <p class="mb-2 text-white text-5xl font-bold mt-4 ml-4">${movie.title}</p>
         <p class="w-full h-[2.5rem] line-clamp-2 text-white text-sm mt-2 ml-4">${movie.overview}</p>
@@ -172,16 +191,17 @@ async function fetchHero() {
           <img src="/assets/tmdb-logo.png" alt="imdb" class="w-10 h-auto">
           <p class="text-white text-sm">${movie.vote_average} / 10</p>
         </div>
-        <button class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">Watch Now</button>
+        <a href="detailed.html?id=${movie.id}" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">View Details</a>
       </div>
-        <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-4 left-0 w-full px-4 flex-col z-50">
+
+      <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-4 left-0 w-full px-4 flex-col z-50">
         <p class="mb-2 text-white text-2xl font-bold">${movie.title}</p>
         <p class="line-clamp-2 text-white text-sm">${movie.overview}</p>
         <div class="flex flex-row gap-2 items-center mt-2">
           <img src="/assets/tmdb-logo.png" alt="imdb" class="w-8 h-auto">
           <p class="text-white text-sm">${movie.vote_average} / 10</p>
         </div>
-        <button class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 hover:bg-red-700 transition">Watch Now</button>
+        <a href="detailed.html?id=${movie.id}" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 hover:bg-red-700 transition">View Details</a>
       </div>
     </div>`;
   })
@@ -212,9 +232,11 @@ target.innerHTML = '';
 trending.forEach(movie => {
   target.innerHTML +=`
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
-    </div>
+    <a href="detailed.html?id=${movie.id}">
+      <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
+        <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+      </div>
+    </a>
   </div>`
 });
 trendingSwiper.update();
@@ -227,9 +249,11 @@ swiperPopular.innerHTML = '';
 popular.forEach(movie => {
   swiperPopular.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
-    </div>
+    <a href="detailed.html?id=${movie.id}">
+      <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
+        <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+      </div>
+    </a>
   </div>`
 });
 popularSwiper.update();
@@ -242,9 +266,11 @@ swiperSeries.innerHTML = '';
 series.forEach(movie => {
   swiperSeries.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
-    </div>
+    <a href="detailed.html?id=${movie.id}">
+      <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
+        <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
+      </div>
+    </a>
   </div>`
 });
 seriesSwiper.update();
