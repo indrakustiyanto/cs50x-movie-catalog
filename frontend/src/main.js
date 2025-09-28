@@ -5,101 +5,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import 'swiper/css/effect-fade';
+import { initNav } from './nav.js';
 
 // *** NAV FUNCTIONALITY ***
-
-// active nav link tab
-// toggle active nav link
-const activeTab = document.querySelectorAll('.js-nav-link-item a');
-const activated = document.querySelector("js-active")
-activeTab.forEach(tab => {
-  tab.addEventListener("click", function() {
-    activeTab.forEach(tabs => tabs.classList.remove("js-active"));
-    this.classList.add("js-active");
-    activated.classList.add("b")
-  })
-})
-
-// Search Icon Click
-const searchIcon = document.querySelector('.js-search-icon');
-const searchBar = document.querySelector('.js-search');
-const navLink = document.querySelector('.js-nav-link');
-let condition = false;
-
-searchIcon.addEventListener('click', () => {
-  if (condition === false) {
-    searchBar.innerHTML = `
-      <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm" autofocus>
-      <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute right-[-50%] z-50 rounded-lg"></div>`
-    searchBar.focus();
-  }
-  else {
-    searchBar.innerHTML = ``;
-  }
-  navLink.classList.toggle('max-xl:hidden');
-
-  // click outside to close search bar
-  document.addEventListener('click', (event) => {
-    if (!searchIcon.contains(event.target) && !searchBar.contains(event.target)) {
-      condition = true;
-      searchBar.innerHTML = '';
-    }
-});
-   
-
-  condition = !condition;
-})
-
-// Hamburger Menu Click
-const hamburger = document.querySelector('.js-hamburger');
-const dropDown = document.querySelector('.js-dropdown-menu');
-let hamCondition = false;
-
-hamburger.addEventListener('click', () => {
-  dropDown.classList.toggle('hidden');
-  hamCondition = !hamCondition;
-  
-  // click outside to close hamburger menu
-  document.addEventListener('click', (event) => {
-    if (!hamburger.contains(event.target) && !dropDown.contains(event.target)) {
-      hamCondition = true;
-      dropDown.classList.add('hidden');
-    }
-  });
-});
-
-// search bar functionality
-searchBar.addEventListener('input', async () => {
-  const query = document.getElementById('search').value;
-  const dropdown = document.querySelector('.js-dropdown');
-
-  // fetch api with query
-  try {
-    let response = await axios.get(`http://127.0.0.1:5000/search?query=${query}`)
-    let result = response.data.results;
-    console.log(result)
-    
-    // display results in dropdown
-    dropdown.classList.remove('hidden');
-    dropdown.innerHTML  = '';
-
-    result.forEach(movie => {
-      dropdown.innerHTML += `
-      <a href="detailed.html?id=${movie.id}">
-        <div class="flex flex-row gap-[1rem] p-2 border-b border-white hover:bg-[#FFFFFF1A] cursor-pointer justify-start items-center">
-          <img src="https://image.tmdb.org/t/p/w92/${movie.poster_path}" alt="${movie.title}" class="w-[2rem] h-[3rem] object-cover mx-auto mb-1 border ">
-          <p class="flex-1 text-white text-sm">${movie.title}</p>
-        </div>
-      </a>
-      `
-    })
-  }
-  catch (error) {
-    console.error(error);
-    dropdown.classList.add('hidden');
-    dropdown.innerHTML = '';
-  }
-});
+initNav();
 
 
 // *** MAIN SECTION FUNCTIONALITY ***
@@ -181,7 +90,7 @@ async function fetchHero() {
   index.forEach(movie => {
     target.innerHTML += `
     <div class="swiper-slide relative transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50 max-sm:h-[75vh]">
+      <img src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}" srcset="https://image.tmdb.org/t/p/w300/${movie.backdrop_path} 300w, https://image.tmdb.org/t/p/w780/${movie.backdrop_path} 780w, https://image.tmdb.org/t/p/w1280/${movie.backdrop_path} 1280w, https://image.tmdb.org/t/p/original/${movie.backdrop_path} 2000w" sizes="100vw" alt="${movie.title}" class="w-screen h-screen object-cover brightness-50 max-sm:h-[75vh]">
        <div class="absolute inset-0 max-sm:top-0 max-sm:left-0 max-sm:w-screen max-sm:h-[75vh] bg-gradient-to-t from-[var(--color-dark-green)] via-transparent to-transparent">
 
       <div class="max-sm:hidden js-detailed-backdrop absolute left-15 bottom-14 w-[40%] h-content z-50 flex flex-col justify-start">
