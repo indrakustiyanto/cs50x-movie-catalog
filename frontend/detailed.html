@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <link href="/src/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>The Mowvie</title>
+  </head>
+
+  <body class="relative font-lato bg-dark-green text-white">
+    <!-- start: header -->
+    <header class="relative flex justify-center items-center w-full h-[6.75rem] top-0 left-0 z-50">
+      <!-- <div class="relative flex justify-between items-center p-[1px] w-[70%] h-[50%] rounded-3xl bg-linear-to-r from-[#228EE5FF] via-[#228EE524] to-[#228EE5FF] max-md:w-[90%] z-50"> -->
+        <nav class="w-[70%] self-center justify-self-center border border-[#83DCFF60] h-[50%] absolute inset-0 flex justify-between items-center px-[1rem] rounded-3xl backdrop-blur-2xl max-md:flex-row-reverse">
+        <!-- nav logo -->
+        <div class="w-[3.75rem] h-[3.75rem]">
+          <img src="/assets/logo-light.png" alt="logo" class="w-full h-full object-contain">
+        </div>
+
+        <!-- hamburger button -->
+         
+
+        <!-- nav link button -->
+        <div class="js-nav-link h-full w-max flex justify-center items-center max-md:hidden shrink">
+          <ul class="flex items-center justify-center gap-[2rem] w-max h-full text-[1rem] font-semibold">
+            <li class="js-nav-link-item flex items-center justify-center h-full w-max">
+              <a href="index.html" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Home</a>
+            </li>
+            <li class="js-nav-link-item flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Movies</a>
+            </li>
+            <li class="js-nav-link-item flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
+            </li>
+            <li class="js-nav-link-item flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
+            </li>
+            <li class="js-nav-link-item flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- searc bar -->
+         <div class="js-search relative"></div>
+
+        <!-- nav profile -->
+        <div class="relative flex flex-row">
+          <ul class="flex gap-[1.8rem] max-md:gap-[1rem] items-center">
+            <!-- hamburger button -->
+            <li class="js-hamburger hidden max-md:block hover:none w-[2rem] h-[2rem]">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 18L20 18" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> <path d="M4 12L20 12" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> <path d="M4 6L20 6" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> </g></svg>
+            </li>
+
+            <!-- search button -->
+            <li class="hover:none w-[1.2rem] h-[1.2rem]">
+              <a href="#">
+                <img src="/assets/nav/search.png" alt="search" class="w-full h-full object-contain transition duration-500 ease-in-out hover:scale-120 js-search-icon">
+              </a>
+            </li>
+
+            <!-- notification button -->
+            <li class="hover:none w-[1.2rem] h-[1.2rem] max-md:hidden">
+              <a href="#">
+                <img src="/assets/nav/notification.png" alt="profile" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+              </a>
+            </li>
+
+            <!-- profile button -->
+            <li class="hover:none w-[1.2rem] h-[1.2rem] max-md:hidden">
+              <a href="#"><img src="/assets/nav/profile.png" alt="profile" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+              </a>
+            </li>
+
+            <!-- theme button -->
+            <li class="hover:none w-[1.2rem] h-[1.2rem] max-md:hidden">
+              <a href="#"><img src="/assets/nav/dark.png" alt="switch to light mode" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+              </a>
+            </li>
+          </ul>
+
+          <!-- dropdown menu -->
+          <div class="js-dropdown-menu hidden absolute left-[10%] top-[130%] w-[9rem] h-fit border rounded-xl bg-[#AD9AAB59] px-2 py-2">
+            <ul class="flex flex-col justify-center gap-3">
+              <!-- notification -->
+              <li class="hover:none w-[1.2rem] h-[1.2rem]">
+                <a href="#" class="flex items-center gap-2">
+                <img src="/assets/nav/notification.png" alt="profile" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+                <p>Notification</p>
+                </a>
+              </li>
+
+              <!-- profile -->
+              <li class="hover:none w-[1.2rem] h-[1.2rem]">
+                <a href="#" class="flex items-center gap-2">
+                <img src="/assets/nav/profile.png" alt="profile" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+                <p>Profile</p>
+                </a>
+              </li>
+
+              <li class="hover:none w-[1.2rem] h-[1.2rem]">
+                <a href="#" class="flex items-center gap-2">
+                <img src="/assets/nav/dark.png" alt="profile" class="w-full h-full object-contain transition duration-300 ease-in-out hover:scale-120">
+                <p>Theme</p>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header -->
+
+    <!-- start: main -->
+    <main class="mt-[-6.75rem] z-1">
+      <section class="mb-7">
+        <div class="js-detail-hero"></div>
+      </section>
+    </main>
+
+
+    <!-- end: main -->
+    <script type="module" src="src/detailed.js"></script>
+  </body>

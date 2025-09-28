@@ -90,6 +90,18 @@ def series():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+@app.route('/details/<int:movieId>')
+def movieDetails(movieId):
+    
+    url = f"https://api.themoviedb.org/3/movie/{movieId}?language=en-US"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
+    }
+
+    response = requests.get(url, headers=headers)
+    print(response)
+    return jsonify(response.json())
 # end routes
 
 if __name__ == '__main__':
