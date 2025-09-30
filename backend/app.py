@@ -100,6 +100,17 @@ def movieDetails(movieId):
     }
 
     response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@app.route('/details/<int:movieId>/images')
+def getImages(movieId):
+    url = f"https://api.themoviedb.org/3/movie/{movieId}/images"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    response = requests.get(url, headers=headers)
     print(response)
     return jsonify(response.json())
 # end routes
