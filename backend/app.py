@@ -48,7 +48,7 @@ def check():
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query')
-    url = f'https://api.themoviedb.org/3/search/movie?query={query}'
+    url = f'https://api.themoviedb.org/3/search/multi?query={query}'
     headers = {
         'Authorization': f'Bearer {TMDB_ACCESS_TOKEN}',
     }
@@ -90,10 +90,10 @@ def series():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
-@app.route('/details/<int:movieId>')
-def movieDetails(movieId):
+@app.route('/details/<int:movieId>/<string:type>')
+def movieDetails(movieId, type):
     
-    url = f"https://api.themoviedb.org/3/movie/{movieId}?language=en-US"
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'

@@ -10,7 +10,6 @@ import { initNav } from './nav.js';
 // *** NAV FUNCTIONALITY ***
 initNav();
 
-
 // *** MAIN SECTION FUNCTIONALITY ***
 
 // init swiper
@@ -84,7 +83,7 @@ async function fetchHero() {
   const index = response.data.results.slice(0, 10);
   const target = document.querySelector('.js-hero-swiper .swiper-wrapper');
   const movieDesc = document.querySelector('.js-sm-movie-desc');
-
+  console.log(index);
   target.innerHTML = '';
   
   index.forEach(movie => {
@@ -100,7 +99,7 @@ async function fetchHero() {
           <img src="/assets/tmdb-logo.png" alt="imdb" class="w-10 h-auto">
           <p class="text-white text-sm">${movie.vote_average} / 10</p>
         </div>
-        <a href="detailed.html?id=${movie.id}" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">View Details</a>
+        <a href="detailed.html?id=${movie.id}&type=movie" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 ml-4 hover:bg-red-700 transition duration-100 ease-in-out">View Details</a>
       </div>
 
       <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-4 left-0 w-full px-4 flex-col z-50">
@@ -110,7 +109,7 @@ async function fetchHero() {
           <img src="/assets/tmdb-logo.png" alt="imdb" class="w-8 h-auto">
           <p class="text-white text-sm">${movie.vote_average} / 10</p>
         </div>
-        <a href="detailed.html?id=${movie.id}" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 hover:bg-red-700 transition">View Details</a>
+        <a href="detailed.html?id=${movie.id}&type=movie" class="bg-red-600 text-white px-4 py-2 rounded-full w-[8rem] mt-4 hover:bg-red-700 transition">View Details</a>
       </div>
     </div>`;
   })
@@ -141,7 +140,7 @@ target.innerHTML = '';
 trending.forEach(movie => {
   target.innerHTML +=`
   <div class="swiper-slide !w-auto">
-    <a href="detailed.html?id=${movie.id}">
+    <a href="detailed.html?id=${movie.id}&type=movie">
       <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
         <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
       </div>
@@ -158,12 +157,13 @@ swiperPopular.innerHTML = '';
 popular.forEach(movie => {
   swiperPopular.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <a href="detailed.html?id=${movie.id}">
+    <a href="detailed.html?id=${movie.id}&type=movie">
       <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
         <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
       </div>
     </a>
   </div>`
+  console.log(movie);
 });
 popularSwiper.update();
 
@@ -175,7 +175,7 @@ swiperSeries.innerHTML = '';
 series.forEach(movie => {
   swiperSeries.innerHTML += `
   <div class="swiper-slide !w-auto">
-    <a href="detailed.html?id=${movie.id}">
+    <a href="detailed.html?id=${movie.id}&type=tv">
       <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
         <img src="https://image.tmdb.org/t/p/w185/${movie.poster_path}" alt="${movie.title}" class="w-full h-full object-cover">
       </div>
