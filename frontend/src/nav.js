@@ -82,8 +82,8 @@ export function initNav() {
         dropdown.innerHTML += `
         <a href="detailed.html?id=${movie.id}&type=${movie.media_type}">
           <div class="flex flex-row gap-[1rem] p-2 border-b border-white hover:bg-[#FFFFFF1A] cursor-pointer justify-start items-center">
-            <img src="https://image.tmdb.org/t/p/w92/${movie.poster_path}" alt="${movie.title}" class="w-[2rem] h-[3rem] object-cover mx-auto mb-1 border ">
-            <p class="flex-1 text-white text-sm">${movie.title}</p>
+            <img src="https://image.tmdb.org/t/p/w92/${movie.poster_path}" alt="${movie.title ? movie.title : movie.original_name}" class="w-[2rem] h-[3rem] object-cover mx-auto mb-1 border ">
+            <p class="flex-1 text-white text-sm">${movie.title ? movie.title : movie.original_name}</p>
           </div>
         </a>
         `
