@@ -113,6 +113,28 @@ def getImages(movieId):
     response = requests.get(url, headers=headers)
     print(response)
     return jsonify(response.json())
+
+@app.route('/credit/<string:type>/<int:movieId>')
+def getMovieCredits(type, movieId):
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}/credits"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@app.route('/recomendation/<string:type>/<int:movieId>/')
+def recomendationsMovieTv(type, movieId):
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}/recommendations?language=en-US&page=1"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
 # end routes
 
 if __name__ == '__main__':

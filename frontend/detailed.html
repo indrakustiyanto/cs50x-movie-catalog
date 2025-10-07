@@ -24,7 +24,6 @@
           </a>
           
         </div>
-
         <!-- hamburger button -->
          
 
@@ -132,11 +131,97 @@
     <!-- end header -->
 
     <!-- start: main -->
-    <main class="mt-[-6.75rem] z-1">
+    <main class="mt-[-6.75rem] z-1 mb-5">
+
+      <!-- backdrop main hero -->
       <section class="mb-7">
         <div class="js-detail-hero"></div>
       </section>
+
+      <!-- image slide -->
+      <section class="">
+        <div class="swiper js-image-swiper">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </section>
+
+      <!-- movie description -->
+      <section class="mt-10 px-10 max-md:px-4 mb-10">
+        <h2 class="text-4xl font-bold mb-4">Movie Description</h2>
+        <p class="js-description text-sm text-justify leading-6"></p>
+      </section>
+
+      <section class="mb-10 px-10 max-md:px-4">
+        <h2 class="text-4xl font-bold mb-4">Genres</h2>
+        <p class="js-genres flex flex-row gap-3.5"></p>
+      </section>
+
+      <section class="mb-10 px-10 max-md:px-4">
+        <h2 class="text-4xl font-bold mb-4">Characters</h2>
+        <div class="swiper js-cast-swiper">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </section>
+
+      <section class="mb-10 px-10 max-md:px-4">
+        <h2 class="text-4xl font-bold mb-4">Similiar Movie</h2>
+        <div class="swiper js-similiar-swiper w-vw mr-auto">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </section>
     </main>
     <!-- end: main -->
+
+    <!-- footer -->
+    <footer class="flex flex-col items-center w-full bg-linear-to-b from-dark-green to-sky-950 text-gray-400 py-6 px-4 text-center text-sm">
+      <h3 class="mb-4 font-bold tracking-wide">THE MOWVIE</h3>
+      <div class="mb-3 font-medium h-full w-max flex justify-center items-center max-md:hidden shrink">
+          <ul class="flex items-center justify-center gap-[2rem] w-max h-full text-[1rem] font-semibold">
+            <li class="flex items-center justify-center h-full w-max">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Home</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Movies</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
+            </li>
+            <li class="flex items-center justify-center h-full">
+              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              after:w-full after:h-[2px] after:bg-[#83DCFF] after:scale-x-0 after:transition after:duration-300
+              hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="leading-[1em]">
+          <p class="mb-2">
+            Design inspired from <a href="https://www.figma.com/community" target="_blank" class="text-[#56CAF8] hover:underline">Figma Community</a>
+          </p>
+          <p class="mb-2">
+            Movie data & images provided by 
+            <a href="https://www.themoviedb.org/" target="_blank" class="text-[#56CAF8] hover:underline">TMDB</a>
+          </p>
+          <p class="mb-2">
+            Developed by <span class="text-white font-semibold">Indra</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            © 2025 Indra. All rights reserved.
+          </p>
+        </div>  
+    </footer>
+
+    <!-- end: footer -->
     <script type="module" src="src/detailed.js"></script>
   </body>

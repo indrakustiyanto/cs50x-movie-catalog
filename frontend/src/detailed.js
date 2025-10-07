@@ -35,10 +35,11 @@ function hour(data) {
   return `${h} Hour ${m} minutes`
 }
 
+// GLOBAL VARIABLES
+const movie = await mainFetch();
 
 // render main data
-async function renderMain() {
-  const movie = await mainFetch();
+async function renderMain() {  
   const hero = document.querySelector('.js-detail-hero');
   if (type === 'movie') {
     hero.innerHTML = `
@@ -119,7 +120,7 @@ async function renderMain() {
           </div>
         </div>
       </div>
-        <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
+      <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
         <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
         <a href="" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</a>
       </div>
@@ -154,14 +155,144 @@ renderMain();
 async function getImage() {
   try {
     const response = await axios.get(`http://127.0.0.1:5000/details/${movieId}/images`);
-    const result = response.data
-    console.log(result);
+    const result = response.data.backdrops;
+    return result;
   } catch (error) {
     console.error(error)
   }
 }
 getImage()
 
-// init swiper
+// init imageSwiper
 
+let imageSwiper = new Swiper(".js-image-swiper", {
+  // optinal paramenters
+  direction: "horizontal",
+  loop: true,
 
+  // main slider setting
+  slidesPerView: 7,
+  spaceBetween: 3,
+  freeMode: true,
+  modules: [FreeMode],
+})
+
+// render image swiper
+async function renderImage() {
+  const images = await getImage();
+  const target = document.querySelector(".js-image-swiper .swiper-wrapper");
+  target.innerHTML = '';
+
+  images.forEach(Image => {
+    target.innerHTML += `
+    <div class="swiper-slide !w-auto">
+      <div class="size-[8rem] mx-3">
+        <img src="https://image.tmdb.org/t/p/w300/${Image.file_path}" alt="movie image" class="w-full h-full object-cover rounded-lg">
+      </div>
+    </div>`;
+  });
+}
+imageSwiper.update();
+renderImage();
+
+// render description
+const descriptionTarget = document.querySelector('.js-description');
+descriptionTarget.innerText = movie.overview;
+
+// render genres
+const genresTarget = document.querySelector('.js-genres');
+movie.genres.forEach(genre => {
+  genresTarget.innerHTML += `
+    <div class="px-7 text-center py-1 bg-pink-400 rounded-full cursor-pointer hover:bg-transparent hover:border hover:border-amber-400 transition ease-in-out">
+      ${genre.name}
+    </div>`;
+});
+
+// fecthing cast
+async function fetchCast() {
+  try {
+    const response = await axios.get(`http://127.0.0.1:5000/credit/${type}/${movieId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// init castSwiper
+let castSwiper = new Swiper(".js-cast-swiper", {
+  // optional parameters
+  derection: "horizontal",
+  loop: false,
+
+  // main slider setting
+  slidesPerView: 6,
+  spaceBetween: 10,
+  freeMode: true,
+  modules: [FreeMode],
+})
+
+// render cast
+const cast = await fetchCast();
+console.log(cast);
+const castTarget = document.querySelector('.js-cast-swiper .swiper-wrapper');
+castTarget.innerHTML = '';
+cast.cast.forEach(actor => {
+  if (actor.profile_path != null) {
+    castTarget.innerHTML += `
+    <div class="swiper-slide !w-[9.5rem]">
+      <div class="size-[8rem] mx-3">
+        <img src="https://image.tmdb.org/t/p/w300/${actor.profile_path}" alt="actor image" class="w-full h-full object-cover rounded-lg">
+      </div>
+      <p class="text-white text-sm text-center mt-2 line-clamp-1">${actor.name}</p>
+      <p class="text-gray-400 text-xs text-center mt-1 line-clamp-1 overflow-hidden">${actor.character}</p>
+    </div>`;
+  }
+});
+
+// fetching similiar movies
+async function fetchRecommendation() {
+  try {
+    const response = await axios.get(`http://127.0.0.1:5000/recomendation/${type}/${movieId}`);
+    return response.data.results;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+// init recomendationSwiper
+let recomendationSwiper = new Swiper('.js-similiar-swiper', {
+  // optional parameters
+  direction: 'horizontal',
+  loop: false,
+
+  // main slider setting
+  slidesPerView: 6,
+  spaceBetween: 10,
+  FreeMode: true,
+  modules: [FreeMode],
+});
+
+// render recomendation
+const recomendations = await fetchRecommendation();
+console.log(recomendations);
+const recomendationTarget = document.querySelector('.js-similiar-swiper .swiper-wrapper');
+recomendationTarget.innerHTML = '';
+recomendations.forEach(item => {
+  if (item.poster_path != null) {
+    recomendationTarget.innerHTML += `
+    <div class="swiper-slide !w-[9.5rem]">
+      <a href="detailed.html?id=${item.id}&type=${item.media_type}">
+        <div class="size-[8rem] mx-3">
+            <img src="https://image.tmdb.org/t/p/w300/${item.poster_path}" alt="movie poster" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <p class="text-white text-sm text-center mt-2 overflow-hidden">${type === 'movie' ? item.title : item.name}</p>
+          <p class="text-gray-400 text-xs text-center mt-1 overflow-hidden">${type === 'movie' ? (item.release_date).split("-")[0] : (item.first_air_date).split("-")[0]}</p>
+        </div>
+      </a>
+    </div>`;
+      
+  } else if (recomendations.length === 0) {
+    recomendationTarget.textContent = 'No Similar Movie Found';
+  }
+});
