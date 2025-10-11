@@ -182,15 +182,20 @@ async function renderImage() {
   const images = await getImage();
   const target = document.querySelector(".js-image-swiper .swiper-wrapper");
   target.innerHTML = '';
+  console.log(images);
 
-  images.forEach(Image => {
+  if (target !== undefined) {
+    images.forEach(Image => {
     target.innerHTML += `
     <div class="swiper-slide !w-auto">
       <div class="size-[8rem] mx-3">
         <img src="https://image.tmdb.org/t/p/w300/${Image.file_path}" alt="movie image" class="w-full h-full object-cover rounded-lg">
       </div>
     </div>`;
-  });
+     });
+  } else {
+    target.innerHTML = '';
+  }
 }
 imageSwiper.update();
 renderImage();
@@ -291,8 +296,7 @@ recomendations.forEach(item => {
         </div>
       </a>
     </div>`;
-      
-  } else if (recomendations.length === 0) {
-    recomendationTarget.textContent = 'No Similar Movie Found';
+  } else {
+    document.querySelector('.empty').innerHTML = '<p>No similar movies found.</p>';
   }
 });
