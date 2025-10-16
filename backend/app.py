@@ -135,6 +135,28 @@ def recomendationsMovieTv(type, movieId):
 
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
+
+@app.route('/genres/list')
+def genres():
+    url = "https://api.themoviedb.org/3/genre/movie/list?language=en-US"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@app.route('/country')
+def getCountry():
+    url = "https://api.themoviedb.org/3/configuration/countries"
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
 # end routes
 
 if __name__ == '__main__':

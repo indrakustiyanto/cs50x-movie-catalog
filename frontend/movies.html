@@ -131,44 +131,74 @@
       <h1 class="text-3xl mt-[8rem] ml-[20vh] mb-10 max-md:ml-[2vh] ">MOVIES</h1>
       
       <!-- filter movies -->
-      <section class="relativeadvance-filter-container w-[80%] h-[21rem] mx-auto mt-35 mb-10 border border-[#83DCFF60] rounded-3xl backdrop-blur-2xl flex items-center justify-center max-md:w-[90%] max-md:h-[15rem] flex-col">
+      <section class="relative advance-filter-container w-[80%] h-[21rem] mx-auto mt-35 mb-10 border border-[#83DCFF60] rounded-3xl backdrop-blur-2xl flex items-center justify-center max-md:w-[90%] max-md:h-[15rem] flex-col pb-5">
 
         <!-- filter tag -->
         <div class="inline-block -mb-1 rounded-t-3xl rounded-b-none bg-[#1e90ff] px-6 py-3 text-white font-semibold shadow absolute -top-[3rem] left-10">
           Advance Search
         </div>
 
-        <!-- filter -->
-          <div class="js-filter-container flex flex-row w-full h-[85%] border border-violet-500" self-start>
-            <div class="w-[30%] h=[85%] border border-alizarin flex justify-center items-center">
+        <!-- filter container-->
+          <div class="js-filter-container flex flex-row w-full h-[85%]">
+
+            <!--  image -->
+            <div class="w-[30%] h=[85%] flex justify-center items-center">
               <img src="./assets/details/Group.png" alt="filter icon" class="">
             </div>
-            <div class="js-filter flex-1 h-[90%] border-amber-400">
-              <div class="row1 flex flex-row justify-evenly mb-5">
+
+            <!-- filter field container-->
+            <div class="js-filter flex-1 flex flex-col h-[90%]  py-8 gap-10">
+
+              <!-- filter field 1 -->
+              <div class="flex flex-row justify-evenly mb-5">
+
+                <!-- filter year -->
                 <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
                   <span>Year</span>
-                  <input type="number" name="filter-year" id="filter-year" placeholder="2023" defaultValue="" class="w-full h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none placeholder-gray-400 focus:ring-2 focus:ring-[#0F3187]
-                  [appearance:textfield]
+                  <input type="number" name="filter-year" id="filter-year" placeholder="2023" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none placeholder-gray-400 [appearance:textfield]
                   [&::-webkit-inner-spin-button]:appearance-none
-                  [&::-webkit-outer-spin-button]:appearance-none" min="1990" max="2025">
+                  [&::-webkit-outer-spin-button]:appearance-none" min="1990" max="2025" autocomplete="off">
                 </div>
-                <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
+
+                <!-- filter country -->
+                <div class="relative js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
                   <span>Country</span>
-                  <input type="text" name="filter-country" id="filter-country" placeholder="USA" defaultValue="" class="w-full h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none">
+                  <!-- <input type="text" name="filter-country" id="filter-country" placeholder="USA" defaultValue="USA" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off"> -->
+                  <select class="w-[7.75rem] h-full text-white mt-1 left-0 bg-dark-green/10 border border-[#0F3187] rounded-xl px-2 py-1 text-sm" id="filter-country-dropdown">
+                    <option value="">none</option>
+                  </select>
                 </div>
+
+                <!-- filter actor -->
                 <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
                   <span>Actors</span>
-                  <input type="text" name="filter-actor" id="filter-actor" placeholder="Tom Hardy" defaultValue="" class="w-full h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none">
+                  <input type="text" name="filter-actor" id="filter-actor" placeholder="Tom Hardy" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
                 </div>
               </div>
-              <div class="row2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus fuga temporibus dicta? Praesentium, ducimus quia. Iusto neque labore culpa harum.</div>
+
+              <!-- filter field 2 -->
+              <div class="flex flex-row justify-between items-center px-40">
+                <div class="relative">
+                  <input type="text" name="filter-search" id="filter-search"
+                  placeholder="Search Movie" class="w-[17.5rem] h-[3rem] border border-[#0F3187] rounded-2xl px-4 py-2" autocomplete="off">
+                  <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2" id="js-filter-search-button">
+                    <img src="./assets/details/searchengine.png" alt="search" class="w-4 h-4 object-contain">
+                  </button>
+                </div>
+                <div class="">
+                  <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
+                    <span>director</span>
+                    <input type="text" name="filter-director" id="filter-director" placeholder="crystopher nolan" defaultValue="" class="text-center w-[10rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi unde tempore eveniet, magni sit esse assumenda quo iusto veritatis? Voluptate veniam aspernatur et suscipit hic ducimus assumenda officia quis adipisci rem a consectetur, accusantium voluptas nulla laborum. Omnis tempora officiis numquam soluta commodi? Porro odit dolorum optio rem ipsam illo?</div>
-         
-
-        
+          <div class="w-[calc(100%-2rem)] swiper js-genres-container">
+            <div class="swiper-wrapper"></div>
+          </div>
+        </div>
       </section>
 
      </main>
