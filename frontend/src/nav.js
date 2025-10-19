@@ -19,17 +19,21 @@ export function initNav() {
   const searchIcon = document.querySelector('.js-search-icon');
   const searchBar = document.querySelector('.js-search');
   const navLink = document.querySelector('.js-nav-link');
+  const logo = document.querySelector('.js-logo');
   let condition = false;
 
   searchIcon.addEventListener('click', () => {
     if (condition === false) {
       searchBar.innerHTML = `
-        <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm" autofocus>
+        <input type="text" placeholder="Search for a movie..." name="search" id="search" autocomplete="off" class="w-max h-[2.5rem] rounded-full text-white text-center border border-white px-2 py-1 transition duration-100 ease-in-out focus:outline-none text-sm ml-3" autofocus>
         <div class="js-dropdown hidden w-[20rem] h-[10rem] overflow-auto bg-[#1A19194D] absolute right-[-50%] z-50 rounded-lg"></div>`
-      searchBar.focus();
+      const input = document.querySelector('input');
+      logo.classList.add('max-sm:hidden');
+      input.focus();
     }
     else {
       searchBar.innerHTML = ``;
+      logo.classList.remove('max-sm:hidden');
     }
     navLink.classList.toggle('max-xl:hidden');
 
@@ -38,6 +42,7 @@ export function initNav() {
       if (!searchIcon.contains(event.target) && !searchBar.contains(event.target)) {
         condition = true;
         searchBar.innerHTML = '';
+        logo.classList.remove('max-sm:hidden');
       }
   });
     

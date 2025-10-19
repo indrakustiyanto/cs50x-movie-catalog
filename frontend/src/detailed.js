@@ -168,10 +168,10 @@ getImage()
 let imageSwiper = new Swiper(".js-image-swiper", {
   // optinal paramenters
   direction: "horizontal",
-  loop: true,
+  loop: false,
 
   // main slider setting
-  slidesPerView: 7,
+  slidesPerView: 'auto',
   spaceBetween: 3,
   freeMode: true,
   modules: [FreeMode],
@@ -230,7 +230,7 @@ let castSwiper = new Swiper(".js-cast-swiper", {
   loop: false,
 
   // main slider setting
-  slidesPerView: 6,
+  slidesPerView: 'auto',
   spaceBetween: 10,
   freeMode: true,
   modules: [FreeMode],
@@ -272,7 +272,7 @@ let recomendationSwiper = new Swiper('.js-similiar-swiper', {
   loop: false,
 
   // main slider setting
-  slidesPerView: 6,
+  slidesPerView: 'auto',
   spaceBetween: 10,
   FreeMode: true,
   modules: [FreeMode],

@@ -30,10 +30,10 @@ console.log(genres);
 const genresSwiper = new Swiper('.js-genres-container', {
   // optinal paramenters
   direction: "horizontal",
-  loop: true,
+  loop: false,
 
   // main slider setting
-  slidesPerView: 7,
+  slidesPerView: 'auto',
   spaceBetween: 20,
   freeMode: true,
   modules: [FreeMode],
@@ -41,7 +41,7 @@ const genresSwiper = new Swiper('.js-genres-container', {
 
 genContainer.innerHTML += genres.map(genre => `
   <div class="swiper-slide !w-auto">
-  <button class="js-genre-capsule border border-[#f338e0] rounded-full px-7 py-3 hover:bg-[#f338e0] transition duration-300 ease-in-out active:bg-[#f338e0]" data-genre-id="${genre.id}" data-genre-name="${genre.name}" data-state="unselected">
+  <button class="js-genre-capsule border border-[#f338e0] rounded-full px-7 py-3 hover:bg-[#f338e0] active:bg-[#f338e0]" data-genre-id="${genre.id}" data-genre-name="${genre.name}" data-state="unselected">
     <span>${genre.name}</span>
   </button>
   </div>
@@ -67,22 +67,6 @@ genreCapsContainer.forEach(capsule => {
   });
 });
 
-// filter counrty dropdown
-const filterCountryDropdown = document.getElementById('filter-country-dropdown');
-countries.forEach(country => {
-  const option = document.createElement('option');
-  option.value = country.iso_3166_1;
-  option.textContent = country.english_name;
-  filterCountryDropdown.appendChild(option);
-})
-
-// functiolity for filter section inputs
-const filterYearInput = document.getElementById('filter-year');
-const filterCountryInput = document.getElementById('filter-country-dropdown');
-const filterActorInput = document.getElementById('filter-actor');
-const filterDirectorInput = document.getElementById('filter-director');
-const filterSearchInput = document.getElementById('filter-search');
-
 // genre selection state
 let selectedGenres = [];
 genreCapsContainer.forEach(capsule => {
@@ -99,6 +83,30 @@ genreCapsContainer.forEach(capsule => {
   });
 });
 
+// genres counter update
+const genresCounter = document.querySelector('.js-genres-counter');
+genresCounter.textContent = `${selectedGenres.length} genre selected`;
+genreCapsContainer.forEach(capsule => {
+  capsule.addEventListener('click', function() {
+    genresCounter.textContent = `${selectedGenres.length} genre selected`;
+  });
+});
+
+// filter counrty dropdown
+const filterCountryDropdown = document.getElementById('filter-country-dropdown');
+countries.forEach(country => {
+  const option = document.createElement('option');
+  option.value = country.iso_3166_1;
+  option.textContent = country.english_name;
+  filterCountryDropdown.appendChild(option);
+})
+
+// functiolity for filter section inputs
+const filterYearInput = document.getElementById('filter-year');
+const filterCountryInput = document.getElementById('filter-country-dropdown');
+const filterActorInput = document.getElementById('filter-actor');
+const filterDirectorInput = document.getElementById('filter-director');
+const filterSearchInput = document.getElementById('filter-search');
 
 // collecting data on submit
 const submitButton = document.getElementById('js-filter-search-button');
@@ -112,3 +120,5 @@ submitButton.addEventListener('click', function(event) {
   console.log('Search: ' + filterSearchInput.value); 
   console.log('Selected Genres: ' + selectedGenres);
 });
+
+

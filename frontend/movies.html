@@ -17,7 +17,7 @@
       <nav class="w-[70%] self-center justify-self-center border border-[#83DCFF60] h-[50%] absolute inset-0 flex justify-between items-center px-[1rem] rounded-3xl backdrop-blur-2xl max-md:flex-row-reverse">
       <!-- nav logo -->
       <div class="w-[3.75rem] h-[3.75rem]">
-        <img src="/assets/logo-light.png" alt="logo" class="w-full h-full object-contain">
+        <img src="/assets/logo-light.png" alt="logo" class="js-logo w-full h-full object-contain">
       </div>
 
       <!-- hamburger button -->
@@ -128,78 +128,79 @@
     <!-- start: main -->
      <main class="mt-[-6.75rem] z-1 mb-5">
 
-      <h1 class="text-3xl mt-[8rem] ml-[20vh] mb-10 max-md:ml-[2vh] ">MOVIES</h1>
+      <h1 class="text-3xl mt-[8rem] ml-[20vh] max-md:ml-[2vh] ">MOVIES</h1>
       
-      <!-- filter movies -->
-      <section class="relative advance-filter-container w-[80%] h-[21rem] mx-auto mt-35 mb-10 border border-[#83DCFF60] rounded-3xl backdrop-blur-2xl flex items-center justify-center max-md:w-[90%] max-md:h-[15rem] flex-col pb-5">
+      <!-- <filter movies -->
+      <section class="relative advance-filter-container w-[80%] h-fit mx-auto mt-25 mb-10 border border-[#83DCFF60] rounded-3xl backdrop-blur-2xl flex items-center justify-center max-md:w-[95%] flex-col gap-4 pb-5 max-sm:min-w-[95vw] max-sm:shrink-0 py-7">
 
         <!-- filter tag -->
-        <div class="inline-block -mb-1 rounded-t-3xl rounded-b-none bg-[#1e90ff] px-6 py-3 text-white font-semibold shadow absolute -top-[3rem] left-10">
+        <div class="absolute -mb-4 rounded-t-3xl rounded-b-none bg-[#1e90ff] px-6 py-3 text-white font-semibold shadow -top-[3rem] left-10">
           Advance Search
         </div>
 
         <!-- filter container-->
-          <div class="js-filter-container flex flex-row w-full h-[85%]">
+        <div class="js-filter-container flex flex-row justify-center w-full h-[85%] max-xl:flex-col max-xl:items-center">
 
-            <!--  image -->
-            <div class="w-[30%] h=[85%] flex justify-center items-center">
-              <img src="./assets/details/Group.png" alt="filter icon" class="">
-            </div>
-
-            <!-- filter field container-->
-            <div class="js-filter flex-1 flex flex-col h-[90%]  py-8 gap-10">
-
-              <!-- filter field 1 -->
-              <div class="flex flex-row justify-evenly mb-5">
-
-                <!-- filter year -->
-                <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
-                  <span>Year</span>
-                  <input type="number" name="filter-year" id="filter-year" placeholder="2023" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none placeholder-gray-400 [appearance:textfield]
-                  [&::-webkit-inner-spin-button]:appearance-none
-                  [&::-webkit-outer-spin-button]:appearance-none" min="1990" max="2025" autocomplete="off">
-                </div>
-
-                <!-- filter country -->
-                <div class="relative js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
-                  <span>Country</span>
-                  <!-- <input type="text" name="filter-country" id="filter-country" placeholder="USA" defaultValue="USA" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off"> -->
-                  <select class="w-[7.75rem] h-full text-white mt-1 left-0 bg-dark-green/10 border border-[#0F3187] rounded-xl px-2 py-1 text-sm" id="filter-country-dropdown">
-                    <option value="">none</option>
-                  </select>
-                </div>
-
-                <!-- filter actor -->
-                <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
-                  <span>Actors</span>
-                  <input type="text" name="filter-actor" id="filter-actor" placeholder="Tom Hardy" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
-                </div>
-              </div>
-
-              <!-- filter field 2 -->
-              <div class="flex flex-row justify-between items-center px-40">
-                <div class="relative">
-                  <input type="text" name="filter-search" id="filter-search"
-                  placeholder="Search Movie" class="w-[17.5rem] h-[3rem] border border-[#0F3187] rounded-2xl px-4 py-2" autocomplete="off">
-                  <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2" id="js-filter-search-button">
-                    <img src="./assets/details/searchengine.png" alt="search" class="w-4 h-4 object-contain">
-                  </button>
-                </div>
-                <div class="">
-                  <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
-                    <span>director</span>
-                    <input type="text" name="filter-director" id="filter-director" placeholder="crystopher nolan" defaultValue="" class="text-center w-[10rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!--  image -->
+          <div class="pl-3 w-full h-full flex justify-center items-center">
+            <img class="object-contain max-w-[60%] h-auto" src="./assets/details/Group.png" alt="filter icon" class="">
           </div>
 
-          <div class="w-[calc(100%-2rem)] swiper js-genres-container">
-            <div class="swiper-wrapper"></div>
+          <!-- filter field container-->
+          <div class="js-filter flex-1 flex flex-col h-[90%]  py-8 gap-10 w-full">
+
+            <!-- filter field 1 -->
+            <div class="flex flex-row justify-evenly mb-5">
+
+              <!-- filter year -->
+              <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3 max-md:flex-col">
+                <span class="">Year</span>
+                <input type="number" name="filter-year" id="filter-year" placeholder="2023" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none placeholder-gray-400 [appearance:textfield]
+                [&::-webkit-inner-spin-button]:appearance-none
+                [&::-webkit-outer-spin-button]:appearance-none" min="1990" max="2025" autocomplete="off">
+              </div>
+
+              <!-- filter country -->
+              <div class="relative js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3 max-md:flex-col">
+                <span class="">Country</span>
+                <select class="w-[7.75rem] text-white bg-dark-green/10 border border-[#0F3187] rounded-xl px-2 text-sm h-[2.5rem]" id="filter-country-dropdown">
+                  <option value="">none</option>
+                </select>
+              </div>
+
+              <!-- filter actor -->
+              <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3 max-md:flex-col">
+                <span class="">Actors</span>
+                <input type="text" name="filter-actor" id="filter-actor" placeholder="Tom Hardy" defaultValue="" class="text-center w-[7.75rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
+              </div>
+            </div>
+
+            <!-- filter field 2 -->
+            <div class="flex flex-row justify-between w-full items-center px-40 gap-5 max-md:px-2 max-md:justify-center">
+              <div class="relative">
+                <input type="text" name="filter-search" id="filter-search"
+                placeholder="Search Movie" class="w-[17.5rem] h-[3rem] border border-[#0F3187] rounded-2xl px-4 py-2" autocomplete="off">
+                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2" id="js-filter-search-button">
+                  <img src="./assets/details/searchengine.png" alt="search" class="w-4 h-4 object-contain">
+                </button>
+              </div>
+              <div class="max-md:hidden">
+                <div class="js-filter-capsule w-[10.5rem] h-[2.5rem] flex flex-row items-center justify-between gap-3">
+                  <span>director</span>
+                  <input type="text" name="filter-director" id="filter-director" placeholder="crystopher nolan" defaultValue="" class="text-center w-[10rem] h-full bg-transparent border border-[#0F3187] rounded-full px-4 py-2 outline-none" autocomplete="off">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <div class="w-[calc(100%-2rem)] swiper js-genres-container mt-[3rem]max-md:mt-0">
+          <p class="js-genres-counter ml-[1.5rem] mb-[1rem]">0 genre selected</p>
+          <div class="swiper-wrapper"></div>
+        </div>
       </section>
+
+      
 
      </main>
 
