@@ -156,7 +156,42 @@ def getCountry():
     }
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
+@app.route('/quick/search/movie')
+def filters():
+    year = request.args.get('year')
+    country = request.args.get('country')
+    actor = request.args.get('actor')
+    director = request.args.get('director')
+    search = request.args.get('search')
+    genres = request.args.get('genres')
 
+    params = {
+        'language': "en-US",
+    }
+
+    if year:
+        params['primary_release_year'] = year
+    if country:
+        params['with_origin_country'] = country
+    if actor:
+        params['with_cast'] = actor
+    if director:
+        params['with_crew'] = director
+    if genres:
+        params['with_genres'] = genres
+    if search:
+        params['query'] = search
+        url = "https://api.themoviedb.org/3/search/multi"
+    else:
+        url = "https://api.themoviedb.org/3/discover/movie"
+
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+    return jsonify(response.json())
 # end routes
 
 if __name__ == '__main__':

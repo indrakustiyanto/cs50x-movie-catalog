@@ -80,6 +80,7 @@ genreCapsContainer.forEach(capsule => {
     } else {
       selectedGenres = selectedGenres.filter(id => id !== genreId);
     }
+    // console.log('Selected genres IDs: ', selectedGenres);
   });
 });
 
@@ -109,16 +110,42 @@ const filterDirectorInput = document.getElementById('filter-director');
 const filterSearchInput = document.getElementById('filter-search');
 
 // collecting data on submit
+const filters= {};
 const submitButton = document.getElementById('js-filter-search-button');
 submitButton.addEventListener('click', function(event) {
   event.preventDefault();
-  console.log('Filter applied with following parameters:');
-  console.log('Year: ' + filterYearInput.value);
-  console.log('Country: ' + filterCountryInput.value + ' (' + countryIso(filterCountryInput.value) + ')');
-  console.log('Actor: ' + filterActorInput.value);
-  console.log('Director: ' + filterDirectorInput.value);
-  console.log('Search: ' + filterSearchInput.value); 
-  console.log('Selected Genres: ' + selectedGenres);
+  filters.year = filterYearInput.value;
+  filters.country = filterCountryInput.value;
+  filters.actor = filterActorInput.value;
+  filters.director = filterDirectorInput.value;
+  filters.search = filterSearchInput.value;
+  filters.genres = selectedGenres.join(',');
+  console.log('Filters to apply: ', filters);
+
+  // cleanup filters object
+  Object.keys(filters).forEach(key => {
+    if (!filters[key]) delete filters[key]; 
+  });
+  console.log('Filters to apply after cleanup: ', filters);
 });
 
 
+// render movie based on filters
+
+async function fetchFilteredMovies(filters) {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/quick/search/movie', {params: filters});
+    const movies = response.data;
+    return movies;
+  }
+  catch (error) {
+    console.error("error:", error);
+  }
+};
+
+const moviesContainer = document.querySelector('.js-movies-container');
+submitButton.addEventListener('click', async function(event) {
+  event.preventDefault();
+  const movies = await fetchFilteredMovies(filters);
+  console.log('Filtered movies: ', movies);
+});
