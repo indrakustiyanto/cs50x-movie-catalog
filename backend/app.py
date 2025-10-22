@@ -164,9 +164,15 @@ def filters():
     director = request.args.get('director')
     search = request.args.get('search')
     genres = request.args.get('genres')
+    page = request.args.get('page', 1)
 
     params = {
         'language': "en-US",
+    }
+
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
     }
 
     if year:
@@ -174,21 +180,33 @@ def filters():
     if country:
         params['with_origin_country'] = country
     if actor:
-        params['with_cast'] = actor
+        getActorurl = "https://api.themoviedb.org/3/search/person"
+        actor_params = {
+            'query': actor,
+            'language': "en-US",
+        }
+        actor_response = requests.get(getActorurl, headers=headers, params=actor_params)
+        actor_response = actor_response.json()
+        params['with_cast'] = actor_response["results"][0]['id']
     if director:
-        params['with_crew'] = director
+        get_director_url = "https://api.themoviedb.org/3/search/person"
+        director_params = {
+            'query': director,
+            'language': "en-US",
+        }
+        director_response = requests.get(get_director_url, headers=headers, params=director_params)
+        director_response = director_response.json()
+        params['with_crew'] = director_response["results"][0]['id']
     if genres:
         params['with_genres'] = genres
+    if page:
+        params['page'] = page
     if search:
         params['query'] = search
         url = "https://api.themoviedb.org/3/search/multi"
     else:
         url = "https://api.themoviedb.org/3/discover/movie"
 
-    headers = {
-        "accept" : "application/json",
-        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
-    }
 
     response = requests.get(url, headers=headers, params=params)
     return jsonify(response.json())

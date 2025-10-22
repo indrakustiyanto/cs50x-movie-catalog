@@ -120,6 +120,7 @@ submitButton.addEventListener('click', function(event) {
   filters.director = filterDirectorInput.value;
   filters.search = filterSearchInput.value;
   filters.genres = selectedGenres.join(',');
+  filters.page = 1; // reset to first page on new search
   console.log('Filters to apply: ', filters);
 
   // cleanup filters object
@@ -130,22 +131,80 @@ submitButton.addEventListener('click', function(event) {
 });
 
 
-// render movie based on filters
-
-async function fetchFilteredMovies(filters) {
+// request data movie based on filters
+async function fetchFilteredMovies(filters, page = 1) {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/quick/search/movie', {params: filters});
+    const response = await axios.get('http://127.0.0.1:5000/quick/search/movie', {params:{ ...filters, page}});
     const movies = response.data;
+    document.querySelector('.js-error-handling').innerHTML = ""
     return movies;
   }
   catch (error) {
     console.error("error:", error);
+    document.querySelector('.js-error-handling').innerHTML = `
+    <div class="flex justify-center items-center">
+      <p>movie not found</p>
+    </div>`
   }
 };
 
-const moviesContainer = document.querySelector('.js-movies-container');
+// load more button functionality
+let totalMoviesPages;
+let currentpage = 1;
+async function loadMore() {
+  if (currentpage < totalMoviesPages) {
+    const movies = await fetchFilteredMovies(filters, currentpage+=1);
+    console.log(movies);
+    movies.results.forEach(movie => {
+    if (movie.poster_path) {
+      moviesContainer.innerHTML += `<div class="movie-card">
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+    </div>
+    `;
+    }
+    if (movies) {
+      const loadMoreContainer = document.querySelector('.js-load-more');
+      loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    }
+  })
+  } else {
+    document.querySelector('.js-load-more').innerHTML = `
+    <p class="text-gray/25">end of pages</p>`
+  }
+}
+
+// render movie functionality
+const moviesContainer = document.querySelector('.js-movies-template');
 submitButton.addEventListener('click', async function(event) {
   event.preventDefault();
   const movies = await fetchFilteredMovies(filters);
-  console.log('Filtered movies: ', movies);
+  if (movies) {
+    totalMoviesPages = movies.total_pages;
+    currentpage = 1;
+  }
+  console.log(movies);
+  moviesContainer.innerHTML = '';
+  movies.results.forEach(movie => {
+    if (movie.poster_path) {
+      moviesContainer.innerHTML += `<div class="movie-card">
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+    </div>
+    `;
+    }
+    if (movies) {
+      const loadMoreContainer = document.querySelector('.js-load-more');
+      loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    }
+  })
 });
+
+if(document.querySelector('.js-load-more')) {
+  document.querySelector('.js-load-more').addEventListener('click', function(event) {
+    loadMore();
+    event.target.classList.add('hidden')
+  })
+}
