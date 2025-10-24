@@ -151,18 +151,19 @@ async function fetchFilteredMovies(filters, page = 1) {
 // load more button functionality
 let totalMoviesPages;
 let currentpage = 1;
-async function loadMore() {
+async function loadMore(state) {
   if (currentpage < totalMoviesPages) {
-    const movies = await fetchFilteredMovies(filters, currentpage+=1);
+    const movies = await state;
     console.log(movies);
     movies.results.forEach(movie => {
     if (movie.poster_path) {
-      moviesContainer.innerHTML += `<div class="movie-card">
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      <div class="movie-card">
       <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
       <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
       <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
-    </div>
-    `;
+      </div>
+      </a>`;
     }
     if (movies) {
       const loadMoreContainer = document.querySelector('.js-load-more');
@@ -175,7 +176,7 @@ async function loadMore() {
   }
 }
 
-// render movie functionality
+// render filtered movie functionality
 const moviesContainer = document.querySelector('.js-movies-template');
 submitButton.addEventListener('click', async function(event) {
   event.preventDefault();
@@ -188,12 +189,13 @@ submitButton.addEventListener('click', async function(event) {
   moviesContainer.innerHTML = '';
   movies.results.forEach(movie => {
     if (movie.poster_path) {
-      moviesContainer.innerHTML += `<div class="movie-card">
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      <div class="movie-card">
       <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
       <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
       <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
-    </div>
-    `;
+      </div>
+      </a>`;
     }
     if (movies) {
       const loadMoreContainer = document.querySelector('.js-load-more');
@@ -202,9 +204,51 @@ submitButton.addEventListener('click', async function(event) {
   })
 });
 
+// request render base movie (movies tabs)
+
+async function baseMovies() {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/trending');
+    const movies = response.data;
+    return movies;
+  }
+  catch (error) {
+    console.error(error);
+  } 
+}
+
+// render base movie 
+async function renderBase() {
+  const movies = await baseMovies()
+  if (movies) {
+    totalMoviesPages = movies.total_pages;
+    currentpage = 1;
+  }
+  console.log(movies);
+
+  movies.results.forEach(movie => {
+    if (movie.poster_path) {
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      <div class="movie-card hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+      </div>
+      </a>`;
+    }
+    if (movies) {
+      const loadMoreContainer = document.querySelector('.js-load-more');
+      loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    }
+  })
+}
+
+renderBase();
+
+// load more button event
 if(document.querySelector('.js-load-more')) {
   document.querySelector('.js-load-more').addEventListener('click', function(event) {
-    loadMore();
+    loadMore(fetchFilteredMovies(filters, currentpage+=1));
     event.target.classList.add('hidden')
   })
 }
