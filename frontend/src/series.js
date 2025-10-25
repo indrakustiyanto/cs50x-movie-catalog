@@ -148,20 +148,12 @@ async function fetchFilteredMovies(filters, page = 1) {
   }
 };
 
-// loadMore(baseMovies(), currentpage+=1);
 // load more button functionality
 let totalMoviesPages;
 let currentpage = 1;
-let isfiltered = false;
-async function loadMore(event) {
-  event.target.classList.add('hidden');
+async function loadMore(state) {
   if (currentpage < totalMoviesPages) {
-    let movies;
-    if (isfiltered) {
-      movies = await baseMovies(currentpage+=1);
-    } else {
-      movies = await fetchFilteredMovies(filters, currentpage+=1);
-    }
+    const movies = await state;
     console.log(movies);
     movies.results.forEach(movie => {
     if (movie.poster_path) {
@@ -173,16 +165,16 @@ async function loadMore(event) {
       </div>
       </a>`;
     }
+    if (movies) {
+      const loadMoreContainer = document.querySelector('.js-load-more');
+      loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    }
   })
-  if (movies) {
-    const loadMoreContainer = document.querySelector('.js-load-more');
-    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
-    document.querySelector('.js-load-more').addEventListener('click', loadMore);
   } else {
     document.querySelector('.js-load-more').innerHTML = `
     <p class="text-gray/25">end of pages</p>`
   }
-}}
+}
 
 // render filtered movie functionality
 const moviesContainer = document.querySelector('.js-movies-template');
@@ -210,20 +202,13 @@ submitButton.addEventListener('click', async function(event) {
       loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
     }
   })
-
-  isfiltered = false;
-  if (movies) {
-    const loadMoreContainer = document.querySelector('.js-load-more');
-    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
-    document.querySelector('.js-load-more').addEventListener('click', loadMore);
-  }
 });
 
 // request render base movie (movies tabs)
 
-async function baseMovies(page = 1) {
+async function baseMovies() {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/trending', {params: {page}});
+    const response = await axios.get('http://127.0.0.1:5000/series');
     const movies = response.data;
     return movies;
   }
@@ -256,15 +241,14 @@ async function renderBase() {
       loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
     }
   })
-  
-  isfiltered = true;
-  if (movies) {
-    const loadMoreContainer = document.querySelector('.js-load-more');
-    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
-    document.querySelector('.js-load-more').addEventListener('click', loadMore);
-  };
-};
+}
 
 renderBase();
 
 // load more button event
+if(document.querySelector('.js-load-more')) {
+  document.querySelector('.js-load-more').addEventListener('click', function(event) {
+    loadMore(fetchFilteredMovies(filters, currentpage+=1));
+    event.target.classList.add('hidden')
+  })
+}

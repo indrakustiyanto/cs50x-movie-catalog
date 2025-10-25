@@ -30,6 +30,8 @@ db = SQL(db_URL)
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
 # routes
+
+# base endpoint homepage
 @app.route('/', methods=['GET'])
 def index():
     url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
@@ -40,11 +42,13 @@ def index():
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
 
+# db init check
 @app.route('/check', methods=['GET'])
 def check():
     res = db.execute("SELECT * FROM users")
     return jsonify(res)
 
+# search bar nav endpoint
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query')
@@ -56,8 +60,13 @@ def search():
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
 
+# trending movie endpoint
 @app.route('/trending', methods=["GET"])
 def trending():
+    page = request.args.get('page')
+    params = {}
+    if page:
+        params['page'] = page
     url = "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
 
     headers = {
@@ -65,9 +74,10 @@ def trending():
         "Authorization": f'Bearer {TMDB_ACCESS_TOKEN}'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     return jsonify(response.json())
 
+# popular movie endpoint
 @app.route('/popular', methods=["GET"])
 def popular():
     url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
@@ -79,9 +89,10 @@ def popular():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+# trending series endpoint
 @app.route('/series')
 def series():
-    url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
+    url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US&append_to_response=videos"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
@@ -90,6 +101,7 @@ def series():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+# details page endpoint
 @app.route('/details/<int:movieId>/<string:type>')
 def movieDetails(movieId, type):
     
@@ -102,9 +114,11 @@ def movieDetails(movieId, type):
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
-@app.route('/details/<int:movieId>/images')
-def getImages(movieId):
-    url = f"https://api.themoviedb.org/3/movie/{movieId}/images"
+
+# image for details page's endpoint
+@app.route('/details/<int:movieId>/<string:type>/images')
+def getImages(movieId, type):
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}/images"
     headers = {
         "accept" : "application/json",
         "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
@@ -114,6 +128,7 @@ def getImages(movieId):
     print(response)
     return jsonify(response.json())
 
+# details page: credit endpoint
 @app.route('/credit/<string:type>/<int:movieId>')
 def getMovieCredits(type, movieId):
     url = f"https://api.themoviedb.org/3/{type}/{movieId}/credits"
@@ -125,6 +140,8 @@ def getMovieCredits(type, movieId):
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+
+# details page: similiar movie/series enpoint
 @app.route('/recomendation/<string:type>/<int:movieId>/')
 def recomendationsMovieTv(type, movieId):
     url = f"https://api.themoviedb.org/3/{type}/{movieId}/recommendations?language=en-US&page=1"
@@ -136,6 +153,7 @@ def recomendationsMovieTv(type, movieId):
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+# movies page: genres list endpoint
 @app.route('/genres/list')
 def genres():
     url = "https://api.themoviedb.org/3/genre/movie/list?language=en-US"
@@ -147,6 +165,7 @@ def genres():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
+# movies page: country's id endpoint
 @app.route('/country')
 def getCountry():
     url = "https://api.themoviedb.org/3/configuration/countries"
@@ -156,6 +175,8 @@ def getCountry():
     }
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
+
+# movies page: filters function endpoint
 @app.route('/quick/search/movie')
 def filters():
     year = request.args.get('year')

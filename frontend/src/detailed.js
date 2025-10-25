@@ -154,7 +154,7 @@ renderMain();
 // getting movie image
 async function getImage() {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/details/${movieId}/images`);
+    const response = await axios.get(`http://127.0.0.1:5000/details/${movieId}/${type}/images`);
     const result = response.data.backdrops;
     return result;
   } catch (error) {
