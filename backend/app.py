@@ -92,7 +92,7 @@ def popular():
 # trending series endpoint
 @app.route('/series')
 def series():
-    url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US&append_to_response=videos"
+    url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
@@ -105,7 +105,7 @@ def series():
 @app.route('/details/<int:movieId>/<string:type>')
 def movieDetails(movieId, type):
     
-    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US"
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US&append_to_response=videos"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'

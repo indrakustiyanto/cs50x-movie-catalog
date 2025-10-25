@@ -69,7 +69,7 @@ async function renderMain() {
 
     <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
       <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
-      <a href="" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</a>
+      <button id="js-preview-button" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
     </div>
 
     <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-5 left-0 w-full px-4 flex-col z-50">
@@ -90,7 +90,7 @@ async function renderMain() {
           <img src="/assets/details/thumb-down.png" class="w-auto h-auto ">
         </div>
       </div>
-      <a href="" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</a>
+      <button id="js-preview-button" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</button>
     </div>
   </div>`;
   }
@@ -122,7 +122,7 @@ async function renderMain() {
       </div>
       <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
         <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
-        <a href="" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</a>
+        <button href="" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
       </div>
 
       <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-5 left-0 w-full px-4 flex-col z-50">
@@ -150,7 +150,33 @@ async function renderMain() {
 }
 renderMain();
 
+// preview functionality
+const previewButton = document.getElementById('js-preview-button');
+const overlay = document.getElementById('overlay-container');
+const closeBtn = document.getElementById('iframe-close');
+const iframe = document.getElementById('iframe');
+const videos = movie.videos.results;
 
+previewButton.addEventListener('click', () => {
+  const key = videos.find(video => video.site === 'YouTube' && video.type === 'Trailer') || videos.find(video => video.site === 'YouTube' && video.type === 'Teaser')
+  if(key) {
+    iframe.src = `https://www.youtube.com/embed/${key.key}?autoplay=1`;
+    overlay.classList.remove('hidden');
+  }
+});
+
+closeBtn.addEventListener('click', function(event) {
+  event.preventDefault();
+  iframe.src = '';
+  overlay.classList.add('hidden');  
+});
+
+overlay.addEventListener('click', (event) => {
+  if(event.target === overlay) {
+    iframe.src = '';
+    overlay.classList.add('hidden');
+  }
+})
 // getting movie image
 async function getImage() {
   try {

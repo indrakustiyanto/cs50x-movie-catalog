@@ -133,6 +133,17 @@
     <!-- start: main -->
     <main class="mt-[-6.75rem] z-1 mb-5">
 
+      <!-- overlay preview trailer -->
+       <div id="overlay-container" class="hidden fixed flex justify-center items-center inset-0 bg-black/70 z-1000">
+        <div id="frame-container" class="relative bg-black w-[40%] h-[40%] rounded-lg">
+          <!-- close button -->
+           <button id="iframe-close" class="absolute top-0 right-0 px-1 py-0.7 bg-red-500">&times;</button>
+
+          <!-- frame -->
+           <iframe src="" id="iframe" frameborder="0" class="size-full rounded-lg" allow="autoplay; accelerometer; gyroscope; picture-in-picture; encrypted-media;" allowfullscreen></iframe>
+        </div>
+       </div>
+
       <!-- backdrop main hero -->
       <section class="mb-7">
         <div class="js-detail-hero"></div>
