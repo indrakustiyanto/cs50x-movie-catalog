@@ -158,10 +158,14 @@ const iframe = document.getElementById('iframe');
 const videos = movie.videos.results;
 
 previewButton.addEventListener('click', () => {
-  const key = videos.find(video => video.site === 'YouTube' && video.type === 'Trailer') || videos.find(video => video.site === 'YouTube' && video.type === 'Teaser')
-  if(key) {
-    iframe.src = `https://www.youtube.com/embed/${key.key}?autoplay=1`;
-    overlay.classList.remove('hidden');
+  if (videos && videos.length >= 1) {
+    const key = videos.find(video => video.site === 'YouTube' && video.type === 'Trailer') || videos.find(video => video.site === 'YouTube' && video.type === 'Teaser')
+    if(key) {
+      iframe.src = `https://www.youtube.com/embed/${key.key}?autoplay=1`;
+      overlay.classList.remove('hidden');
+    }
+  } else {
+    alert('sorry but we couldn\'t find the triler of this movies or serires ')
   }
 });
 
