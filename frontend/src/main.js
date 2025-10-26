@@ -134,6 +134,15 @@ async function listMovies(segmentation) {
 
 // render trending movies list
 let trending = await listMovies('trending');
+const subTrend = document.querySelector('.js-sub-trends');
+const seeTrend = document.querySelector('.js-see-trends');
+if (trending) {
+  subTrend.innerText = 'Trends';
+  seeTrend.innerText = 'See More ->';
+} else {
+  subTrend.innerText = '';
+  seeTrend.innerText = '';
+}
 const target = document.querySelector('.js-trending-swiper .swiper-wrapper');
 target.innerHTML = '';
 
@@ -151,6 +160,15 @@ trendingSwiper.update();
 
 // render popular movies list
 let popular = await listMovies('popular');
+const subPopular = document.querySelector('.js-sub-popular');
+const seePopular = document.querySelector('.js-see-popular');
+if (popular) {
+  subPopular.innerText = 'Popular';
+  seePopular.innerText = 'See More ->';
+} else {
+  subPopular.innerText = '';
+  seePopular.innerText = '';
+}
 const swiperPopular = document.querySelector('.js-popular-swiper .swiper-wrapper');
 swiperPopular.innerHTML = '';
 
@@ -169,6 +187,15 @@ popularSwiper.update();
 
 // render popular series list
 let series = await listMovies('series');
+const subSeries = document.querySelector('.js-sub-series');
+const seeSeries = document.querySelector('.js-see-series');
+if (series) {
+  subSeries.innerText = 'Series';
+  seeSeries.innerText = 'See More ->';
+} else {
+  subSeries.innerText = '';
+  seeSeries.innerText = '';
+}
 const swiperSeries = document.querySelector('.js-series-swiper .swiper-wrapper');
 swiperSeries.innerHTML = '';
 
