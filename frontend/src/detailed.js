@@ -122,7 +122,7 @@ async function renderMain() {
       </div>
       <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
         <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
-        <button href="" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
+        <button id="js-preview-button" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
       </div>
 
       <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-5 left-0 w-full px-4 flex-col z-50">
@@ -143,7 +143,7 @@ async function renderMain() {
             <img src="/assets/details/thumb-down.png" class="w-auto h-auto ">
           </div>
         </div>
-        <a href="" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</a>
+        <a id="js-preview-button" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</a>
       </div>
     </div>`
   }
@@ -231,13 +231,27 @@ const descriptionTarget = document.querySelector('.js-description');
 descriptionTarget.innerText = movie.overview;
 
 // render genres
-const genresTarget = document.querySelector('.js-genres');
-movie.genres.forEach(genre => {
-  genresTarget.innerHTML += `
-    <div class="px-7 text-center py-1 bg-pink-400 rounded-full cursor-pointer hover:bg-transparent hover:border hover:border-amber-400 transition ease-in-out">
-      ${genre.name}
-    </div>`;
+const genres = movie.genres;
+const genContainer = document.querySelector('.js-genres-container .swiper-wrapper')
+const genresSwiper = new Swiper('.js-genres-container', {
+  // optinal paramenters
+  direction: "horizontal",
+  loop: false,
+
+  // main slider setting
+  slidesPerView: 'auto',
+  spaceBetween: 20,
+  freeMode: true,
+  modules: [FreeMode],
 });
+
+genContainer.innerHTML += genres.map(genre => `
+  <div class="swiper-slide !w-auto">
+    <div class="js-genre-capsule bg-[#f338e0] rounded-full px-7 py-3" data-genre-id="${genre.id}" data-genre-name="${genre.name}" data-state="unselected">
+      <span>${genre.name}</span>
+    </div>
+  </div>
+`).join('');
 
 // fecthing cast
 async function fetchCast() {

@@ -80,25 +80,33 @@ def trending():
 # popular movie endpoint
 @app.route('/popular', methods=["GET"])
 def popular():
+    page = request.args.get('page')
+    params = {}
+    if page:
+        params['page'] = page
     url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     return jsonify(response.json())
 
 # trending series endpoint
 @app.route('/series')
 def series():
+    page = request.args.get('page')
+    params = {}
+    if page:
+        params['page'] = page
     url = "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     return jsonify(response.json())
 
 # details page endpoint
@@ -176,7 +184,7 @@ def getCountry():
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
-# movies page: filters function endpoint
+# movies page: filters movies function endpoint
 @app.route('/quick/search/movie')
 def filters():
     year = request.args.get('year')
@@ -227,6 +235,63 @@ def filters():
         url = "https://api.themoviedb.org/3/search/multi"
     else:
         url = "https://api.themoviedb.org/3/discover/movie"
+
+
+    response = requests.get(url, headers=headers, params=params)
+    return jsonify(response.json())
+
+# series page: filtered series endpoint
+
+@app.route('/quick/search/tv')
+def filtersTv():
+    year = request.args.get('year')
+    country = request.args.get('country')
+    actor = request.args.get('actor')
+    director = request.args.get('director')
+    search = request.args.get('search')
+    genres = request.args.get('genres')
+    page = request.args.get('page', 1)
+
+    params = {
+        'language': "en-US",
+    }
+
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
+
+    if year:
+        params['primary_release_year'] = year
+    if country:
+        params['with_origin_country'] = country
+    if actor:
+        getActorurl = "https://api.themoviedb.org/3/search/person"
+        actor_params = {
+            'query': actor,
+            'language': "en-US",
+        }
+        actor_response = requests.get(getActorurl, headers=headers, params=actor_params)
+        actor_response = actor_response.json()
+        params['with_cast'] = actor_response["results"][0]['id']
+    if director:
+        get_director_url = "https://api.themoviedb.org/3/search/person"
+        director_params = {
+            'query': director,
+            'language': "en-US",
+        }
+        director_response = requests.get(get_director_url, headers=headers, params=director_params)
+        director_response = director_response.json()
+        params['with_crew'] = director_response["results"][0]['id']
+    if genres:
+        params['with_genres'] = genres
+    if page:
+        params['page'] = page
+    if search:
+        params['query'] = search
+        url = "https://api.themoviedb.org/3/search/tv"
+    else:
+        url = "https://api.themoviedb.org/3/discover/tv"
 
 
     response = requests.get(url, headers=headers, params=params)

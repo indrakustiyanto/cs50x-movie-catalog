@@ -6,6 +6,13 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import { countryIso, countries } from './country.js';  
 
+// init params
+const param = new URLSearchParams(window.location.search);
+let type = param.get('type');
+if (!type) {
+  type = 'series';
+};
+
 // Initialize navigation functionality
 initNav();
 
@@ -134,7 +141,7 @@ submitButton.addEventListener('click', function(event) {
 // request data movie based on filters
 async function fetchFilteredMovies(filters, page = 1) {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/quick/search/movie', {params:{ ...filters, page}});
+    const response = await axios.get('http://127.0.0.1:5000/quick/search/tv', {params:{ ...filters, page}});
     const movies = response.data;
     document.querySelector('.js-error-handling').innerHTML = ""
     return movies;
@@ -148,33 +155,41 @@ async function fetchFilteredMovies(filters, page = 1) {
   }
 };
 
+// loadMore(baseMovies(), currentpage+=1);
 // load more button functionality
 let totalMoviesPages;
 let currentpage = 1;
-async function loadMore(state) {
+let isfiltered = false;
+async function loadMore(event) {
+  event.target.classList.add('hidden');
   if (currentpage < totalMoviesPages) {
-    const movies = await state;
+    let movies;
+    if (isfiltered) {
+      movies = await baseMovies(currentpage+=1);
+    } else {
+      movies = await fetchFilteredMovies(filters, currentpage+=1);
+    }
     console.log(movies);
     movies.results.forEach(movie => {
     if (movie.poster_path) {
-      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=tv">
       <div class="movie-card">
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
-      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
-      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.name}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.first_air_date}</p>
       </div>
       </a>`;
     }
-    if (movies) {
-      const loadMoreContainer = document.querySelector('.js-load-more');
-      loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
-    }
   })
+  if (movies) {
+    const loadMoreContainer = document.querySelector('.js-load-more');
+    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    document.querySelector('.js-load-more').addEventListener('click', loadMore);
   } else {
     document.querySelector('.js-load-more').innerHTML = `
     <p class="text-gray/25">end of pages</p>`
   }
-}
+}}
 
 // render filtered movie functionality
 const moviesContainer = document.querySelector('.js-movies-template');
@@ -189,11 +204,11 @@ submitButton.addEventListener('click', async function(event) {
   moviesContainer.innerHTML = '';
   movies.results.forEach(movie => {
     if (movie.poster_path) {
-      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=tv">
       <div class="movie-card">
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
-      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
-      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.name}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.first_air_date}</p>
       </div>
       </a>`;
     }
@@ -202,13 +217,20 @@ submitButton.addEventListener('click', async function(event) {
       loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
     }
   })
+
+  isfiltered = false;
+  if (movies) {
+    const loadMoreContainer = document.querySelector('.js-load-more');
+    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    document.querySelector('.js-load-more').addEventListener('click', loadMore);
+  }
 });
 
 // request render base movie (movies tabs)
 
-async function baseMovies() {
+async function baseMovies(page = 1) {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/series');
+    const response = await axios.get(`http://127.0.0.1:5000/${type}`, {params: {page}});
     const movies = response.data;
     return movies;
   }
@@ -228,11 +250,11 @@ async function renderBase() {
 
   movies.results.forEach(movie => {
     if (movie.poster_path) {
-      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=movie">
+      moviesContainer.innerHTML += `<a href="detailed.html?id=${movie.id}&type=tv">
       <div class="movie-card hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster" class="movie-poster rounded-lg mb-4">
-      <h3 class="movie-title text-lg font-semibold mb-2">${movie.title}</h3>
-      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.release_date}</p>
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.name} poster" class="movie-poster rounded-lg mb-4">
+      <h3 class="movie-title text-lg font-semibold mb-2">${movie.name}</h3>
+      <p class="movie-release-date text-sm text-gray-500 mb-2">Release Date: ${movie.first_air_date}</p>
       </div>
       </a>`;
     }
@@ -241,14 +263,15 @@ async function renderBase() {
       loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
     }
   })
-}
+  
+  isfiltered = true;
+  if (movies) {
+    const loadMoreContainer = document.querySelector('.js-load-more');
+    loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
+    document.querySelector('.js-load-more').addEventListener('click', loadMore);
+  };
+};
 
 renderBase();
 
 // load more button event
-if(document.querySelector('.js-load-more')) {
-  document.querySelector('.js-load-more').addEventListener('click', function(event) {
-    loadMore(fetchFilteredMovies(filters, currentpage+=1));
-    event.target.classList.add('hidden')
-  })
-}

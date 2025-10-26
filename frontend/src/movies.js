@@ -6,6 +6,13 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import { countryIso, countries } from './country.js';  
 
+// init params
+const param = new URLSearchParams(window.location.search);
+let type = param.get('type');
+if (!type) {
+  type = 'trending';
+};
+
 // Initialize navigation functionality
 initNav();
 
@@ -223,7 +230,7 @@ submitButton.addEventListener('click', async function(event) {
 
 async function baseMovies(page = 1) {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/trending', {params: {page}});
+    const response = await axios.get(`http://127.0.0.1:5000/${type}`, {params: {page}});
     const movies = response.data;
     return movies;
   }
