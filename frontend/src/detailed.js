@@ -232,10 +232,18 @@ renderImage();
 
 // render description
 const descriptionTarget = document.querySelector('.js-description');
+const subDesc = document.querySelector('.js-sub-desc');
 descriptionTarget.innerText = movie.overview;
+if (movie.overview) {
+  subDesc.innerText = 'Movie Description';
+};
 
 // render genres
 const genres = movie.genres;
+const subGenres = document.querySelector('.js-sub-genres');
+if (genres) {
+  subGenres.innerText = "Genres";
+}
 const genContainer = document.querySelector('.js-genres-container .swiper-wrapper')
 const genresSwiper = new Swiper('.js-genres-container', {
   // optinal paramenters
@@ -282,7 +290,10 @@ let castSwiper = new Swiper(".js-cast-swiper", {
 
 // render cast
 const cast = await fetchCast();
-console.log(cast);
+const subCast = document.querySelector('.js-sub-cast');
+if (cast) {
+  subCast.innerText = 'Characters';
+}
 const castTarget = document.querySelector('.js-cast-swiper .swiper-wrapper');
 castTarget.innerHTML = '';
 cast.cast.forEach(actor => {
@@ -325,6 +336,8 @@ let recomendationSwiper = new Swiper('.js-similiar-swiper', {
 // render recomendation
 const recomendations = await fetchRecommendation();
 console.log(recomendations);
+const subSimiliar = document.querySelector('.js-sub-similiar');
+subSimiliar.innerText = 'Similiar Movie';
 const recomendationTarget = document.querySelector('.js-similiar-swiper .swiper-wrapper');
 recomendationTarget.innerHTML = '';
 recomendations.forEach(item => {
