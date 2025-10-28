@@ -296,6 +296,19 @@ def filtersTv():
 
     response = requests.get(url, headers=headers, params=params)
     return jsonify(response.json())
+
+# collections page: main fetch
+@app.route('/get/collections/<int:collectionId>')
+def getCollections(collectionId):
+    name = request.args.get('query')
+    url = f'https://api.themoviedb.org/3/collection/{collectionId}?language=en-US'
+    headers = {
+        "accept" : "application/json",
+        "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}" 
+    }
+
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
 # end routes
 
 if __name__ == '__main__':
