@@ -69,7 +69,7 @@ async function renderMain() {
 
     <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
       <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
-      <button id="js-preview-button" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
+      <button class="js-preview-button px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
     </div>
 
     <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-5 left-0 w-full px-4 flex-col z-50">
@@ -90,7 +90,7 @@ async function renderMain() {
           <img src="/assets/details/thumb-down.png" class="w-auto h-auto ">
         </div>
       </div>
-      <button id="js-preview-button" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</button>
+      <button id="" class="js-preview-button bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</button>
     </div>
   </div>`;
   }
@@ -122,7 +122,7 @@ async function renderMain() {
       </div>
       <div class="max-sm:hidden w-[30%] h-content absolute bottom-14 right-25 font-bold flex flex-row gap-8 text-center">
         <a href="" class="px-8 py-4 bg-[#00b2f8df] rounded-full flex-1 hover:shadow-[0_0_30px_1px_#00b2f8df] whitespace-nowrap">Watch Now</a>
-        <button id="js-preview-button" class="px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
+        <button id="" class="js-preview-button px-8 py-4 border border-[#00b2f8df] rounded-full flex-1 hover:scale-105 hover:border-amber-300 self-center">Preview</button>
       </div>
 
       <div class="hidden max-sm:flex js-detailed-backdrop absolute bottom-5 left-0 w-full px-4 flex-col z-50">
@@ -143,7 +143,7 @@ async function renderMain() {
             <img src="/assets/details/thumb-down.png" class="w-auto h-auto ">
           </div>
         </div>
-        <a id="js-preview-button" class="bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</a>
+        <a id="" class="js-preview-button bg-[#00b2f8df] text-white px-4 py-2 rounded-full w-[8rem] mt-3 hover:bg-red-700 transition">Watch Trailer</a>
       </div>
     </div>`
   }
@@ -151,23 +151,26 @@ async function renderMain() {
 renderMain();
 
 // preview functionality
-const previewButton = document.getElementById('js-preview-button');
+const previewButton = document.querySelectorAll('.js-preview-button');
 const overlay = document.getElementById('overlay-container');
 const closeBtn = document.getElementById('iframe-close');
 const iframe = document.getElementById('iframe');
 const videos = movie.videos.results;
 
-previewButton.addEventListener('click', () => {
-  if (videos && videos.length >= 1) {
-    const key = videos.find(video => video.site === 'YouTube' && video.type === 'Trailer') || videos.find(video => video.site === 'YouTube' && video.type === 'Teaser')
-    if(key) {
-      iframe.src = `https://www.youtube.com/embed/${key.key}?autoplay=1`;
-      overlay.classList.remove('hidden');
+previewButton.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (videos && videos.length >= 1) {
+      const key = videos.find(video => video.site === 'YouTube' && video.type === 'Trailer') || videos.find(video => video.site === 'YouTube' && video.type === 'Teaser')
+      if(key) {
+        iframe.src = `https://www.youtube.com/embed/${key.key}?autoplay=1`;
+        overlay.classList.remove('hidden');
+      }
+    } else {
+      alert('sorry but we couldn\'t find the triler of this movies or serires ')
     }
-  } else {
-    alert('sorry but we couldn\'t find the triler of this movies or serires ')
-  }
-});
+  });
+})
+
 
 closeBtn.addEventListener('click', function(event) {
   event.preventDefault();
@@ -346,7 +349,7 @@ recomendations.forEach(item => {
     <div class="swiper-slide !w-[9.5rem]">
       <a href="detailed.html?id=${item.id}&type=${item.media_type}">
         <div class="size-[8rem] mx-3">
-            <img src="https://image.tmdb.org/t/p/w300/${item.poster_path}" alt="movie poster" class="w-full h-full object-cover rounded-lg">
+          <img src="https://image.tmdb.org/t/p/w300/${item.poster_path}" alt="movie poster" class="w-full h-full object-cover rounded-lg">
           </div>
           <p class="text-white text-sm text-center mt-2 overflow-hidden">${type === 'movie' ? item.title : item.name}</p>
           <p class="text-gray-400 text-xs text-center mt-1 overflow-hidden">${type === 'movie' ? (item.release_date).split("-")[0] : (item.first_air_date).split("-")[0]}</p>
@@ -357,3 +360,18 @@ recomendations.forEach(item => {
     document.querySelector('.empty').innerHTML = '<p>No similar movies found.</p>';
   }
 });
+
+// movie collection
+const collections = movie.belongs_to_collection;
+console.log('collection id: ', collections.id);
+if (collections) {
+  const collectsContain = document.querySelector('.js-movie-collections');
+  document.querySelector('.js-sub-collections').innerText = 'Movie Collections';
+  collectsContain.innerHTML = `
+  <a href="collections.html?id=${collections.id}" class="inline-block size-fit">
+    <div class="size-[8rem] mx-3">
+      <img src="https://image.tmdb.org/t/p/w300/${collections.poster_path}">
+      <p class="text-white text-sm text-center mt-2 overflow-hidden">${collections.name}</p>
+    </div>
+  </a>`
+}
