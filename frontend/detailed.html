@@ -45,11 +45,11 @@
               after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
               hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
             </li>
-            <li class="js-nav-link-item flex items-center justify-center h-full">
+            <!-- <li class="js-nav-link-item flex items-center justify-center h-full">
               <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
               after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
               hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
-            </li>
+            </li> -->
             <li class="js-nav-link-item flex items-center justify-center h-full">
               <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
               after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
@@ -131,8 +131,8 @@
     <main class="mt-[-6.75rem] z-1 mb-5">
 
       <!-- overlay preview trailer -->
-       <div id="overlay-container" class="hidden fixed flex justify-center items-center inset-0 bg-black/70 z-1000">
-        <div id="frame-container" class="relative bg-black w-[40%] h-[40%] rounded-lg">
+       <div id="overlay-container" class="hidden fixed flex justify-center items-center inset-0 bg-black/70 z-1000 size-full">
+        <div id="frame-container" class="relative bg-black w-[75dvw] h-[65dvh] rounded-lg max-sm:w-[90%] max-sm:h-[30%]">
           <!-- close button -->
            <button id="iframe-close" class="absolute top-0 right-0 px-1 py-0.7 bg-red-500">&times;</button>
 
@@ -174,6 +174,12 @@
           <div class="swiper-wrapper"></div>
         </div>
       </section>
+
+      <!-- movie collection -->
+       <section class="mb-10 px-10 max-md:px-4">
+         <h2 class="js-sub-collections text-4xl font-bold mb-4"></h2>
+         <div class="js-movie-collections"></div>
+       </section>
 
       <!-- similiar movie -->
       <section class="mb-10 px-10 max-md:px-4">
