@@ -340,7 +340,12 @@ let recomendationSwiper = new Swiper('.js-similiar-swiper', {
 const recomendations = await fetchRecommendation();
 console.log(recomendations);
 const subSimiliar = document.querySelector('.js-sub-similiar');
-subSimiliar.innerText = 'Similiar Movie';
+if (type === 'movie') {
+  subSimiliar.innerText = 'Similiar Movie';
+} else {
+  subSimiliar.innerText = 'Similiar Series';
+}
+
 const recomendationTarget = document.querySelector('.js-similiar-swiper .swiper-wrapper');
 recomendationTarget.innerHTML = '';
 recomendations.forEach(item => {
