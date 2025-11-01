@@ -197,6 +197,7 @@ def filters():
 
     params = {
         'language': "en-US",
+        'include_adult' : 'false',
     }
 
     headers = {
@@ -309,6 +310,101 @@ def getCollections(collectionId):
 
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
+
+# faq page: main fetch 
+@app.route('/get/faq')
+def getFAQ():
+    faq_data = [
+        {
+            "question": "What is this website about ?",
+            "answer": "This website is a movie catalog that allows users to browse, search, and explore movies, TV shows, and collections with detailed information such as release dates, genres, casts, similiar movies/series, and trailers."
+        },
+        {
+            "question": "Where does the data come from ?",
+            "answer": "All data displayed on this website is fetched from The Movie Database (TMDB) API."
+        },
+        {
+            "question": "Can I watch full movies here ?",
+            "answer": "No. This website only provides trailers and detailed information about movies and series, not full-length streaming."
+        },
+        {
+            "question": "Is this an official TMDB website ?",
+            "answer": "No. This project is an educational showcase built using TMDB’s public API as part of the CS50x final project."
+        },
+        {
+            "question": "Who built this website ?",
+            "answer": "This website was built by Indra Yuliana Kustiyanto Saputro as a final project for Harvard’s CS50x course."
+        },
+        {
+            "question": "What technologies were used to build this project ?",
+            "answer": "The project uses Flask for the backend, Vanilla JavaScript and Vite for the frontend, and TMDB API for movie data."
+        },
+        {
+            "question": "How does the website fetch movie data ?",
+            "answer": "The Flask backend sends requests to the TMDB API using secure access tokens, then returns the data as JSON to the frontend."
+        },
+        {
+            "question": "Can I search for specific movies or series ?",
+            "answer": "Yes. You can use the search bar to find movies or TV shows by and more advance you can use filter functions on page movie or series for specific result."
+        },
+        {
+            "question": "What are collections on this website ?",
+            "answer": "Collections are groups of related movies, such as franchises like The Avengers or Harry Potter, combined into one category."
+        },
+        {
+            "question": "Why do some posters or trailers not appear ?",
+            "answer": "Some movies may not have complete data available from TMDB, which can cause missing images or trailers."
+        },
+        {
+            "question": "Does the website store any user data ?",
+            "answer": "No. This project does not collect or store any personal information from users."
+        },
+        {
+            "question": "Is this website mobile-friendly ?",
+            "answer": "Yes. The layout is designed to be responsive and work well on both desktop and mobile devices."
+        },
+        {
+            "question": "Can I filter movies by genre or popularity ?",
+            "answer": "yeah, you could do it by using filters fucntionality. year, country, genre, even director and character are possible."
+        },
+        {
+            "question": "Why are some movies marked as adult content ?",
+            "answer": "TMDB includes metadata for all kinds of content. The site filters adult results by default unless explicitly enabled."
+        },
+        {
+            "question": "How often is the data updated ?",
+            "answer": "The data is fetched directly from TMDB’s live API, ensuring it’s always up to date whenever the page loads."
+        },
+        {
+            "question": "What’s the purpose of this project ?",
+            "answer": "This project demonstrates web development fundamentals, including API integration, asynchronous fetching, and frontend-backend communication."
+        },
+        {
+            "question": "How are trailers displayed ?",
+            "answer": "Trailer links are retrieved from TMDB’s video endpoint, which often references official YouTube trailers."
+        },
+        {
+            "question": "Can I contribute or modify this project ?",
+            "answer": "Yes. The source code is available on GitHub, and contributions or improvements are welcome."
+        },
+        {
+            "question": "What challenges did you face during development ?",
+            "answer": "Some challenges included handling asynchronous data loading, managing CORS issues, and designing a clean, responsive interface."
+        },
+        {
+            "question": "What are your future plans for this website ?",
+            "answer": "Possible future updates include user accounts, favorites lists, rating systems, and more detailed movie analytics."
+        },
+        {
+            "question": "Why adult movie still appering ?",
+            "answer": "Sometimes TMDB’s data still includes adult stuff even if you set include_adult=false. It’s not always perfect, so a few might slip through the filter."
+        },
+        {
+            "question": "why there's so many dummy button or icon",
+            "answer": "Those are just placeholders for now — the real functions are coming later"
+        },
+    ]
+    return jsonify(faq_data)
 # end routes
 
 if __name__ == '__main__':
