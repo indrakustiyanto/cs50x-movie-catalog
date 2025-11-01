@@ -173,7 +173,8 @@ const swiperPopular = document.querySelector('.js-popular-swiper .swiper-wrapper
 swiperPopular.innerHTML = '';
 
 popular.forEach(movie => {
-  swiperPopular.innerHTML += `
+  if (movie.poster_path) {
+    swiperPopular.innerHTML += `
   <div class="swiper-slide !w-auto">
     <a href="detailed.html?id=${movie.id}&type=movie">
       <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
@@ -181,7 +182,8 @@ popular.forEach(movie => {
       </div>
     </a>
   </div>`
-  console.log(movie);
+  }
+  
 });
 popularSwiper.update();
 
@@ -200,7 +202,8 @@ const swiperSeries = document.querySelector('.js-series-swiper .swiper-wrapper')
 swiperSeries.innerHTML = '';
 
 series.forEach(movie => {
-  swiperSeries.innerHTML += `
+  if (movie.poster_path) {
+    swiperSeries.innerHTML += `
   <div class="swiper-slide !w-auto">
     <a href="detailed.html?id=${movie.id}&type=tv">
       <div class="w-[8rem] h-[12rem] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 hover:shadow-lg shadow-alice-blue transition duration-100 ease-in-out">
@@ -208,5 +211,6 @@ series.forEach(movie => {
       </div>
     </a>
   </div>`
+  }
 });
 seriesSwiper.update();

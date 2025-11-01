@@ -368,7 +368,6 @@ recomendations.forEach(item => {
 
 // movie collection
 const collections = movie.belongs_to_collection;
-console.log('collection id: ', collections.id);
 if (collections) {
   const collectsContain = document.querySelector('.js-movie-collections');
   document.querySelector('.js-sub-collections').innerText = 'Movie Collections';
@@ -380,3 +379,4 @@ if (collections) {
     </div>
   </a>`
 }
+

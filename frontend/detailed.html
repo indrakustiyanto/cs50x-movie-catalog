@@ -16,9 +16,9 @@
     <!-- start: header -->
     <header class="relative flex justify-center items-center w-full h-[6.75rem] top-0 left-0 z-50">
       <!-- <div class="relative flex justify-between items-center p-[1px] w-[70%] h-[50%] rounded-3xl bg-linear-to-r from-[#228EE5FF] via-[#228EE524] to-[#228EE5FF] max-md:w-[90%] z-50"> -->
-        <nav class="w-[70%] self-center justify-self-center border border-[#83DCFF60] h-[50%] absolute inset-0 flex justify-between items-center px-[1rem] rounded-3xl backdrop-blur-2xl max-md:flex-row-reverse max-md:w-[90%]">
+        <nav class="w-[70%] self-center justify-self-center border border-[#83DCFF60] h-[50%] absolute inset-0 flex justify-between items-center px-[1rem] rounded-3xl backdrop-blur-2xl">
         <!-- nav logo -->
-        <div class="w-[3.75rem] h-[3.75rem]">
+        <div class="js-logo w-[3.75rem] h-[3.75rem]">
           <a href="index.html">
             <img src="/assets/logo-light.png" alt="logo" class="w-full h-full object-contain">
           </a>
@@ -51,7 +51,7 @@
               hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Collections</a>
             </li> -->
             <li class="js-nav-link-item flex items-center justify-center h-full">
-              <a href="#" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+              <a href="faq.html" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
               after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
               hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
             </li>
@@ -63,9 +63,8 @@
 
         <!-- nav profile -->
         <div class="relative flex flex-row">
-          <ul class="flex gap-[1.8rem] max-md:gap-[1rem] items-center">
-            <!-- hamburger button -->
-            <li class="js-hamburger hidden max-md:block hover:none w-[2rem] h-[2rem]">
+          <ul class="flex gap-[1.8rem] max-md:gap-[1rem] items-center max-md:flex-row-reverse">
+            <li class="js-hamburger hidden max-md:block hover:none w-[2rem] h-[2rem] max-md:flex-row-reverse">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 18L20 18" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> <path d="M4 12L20 12" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> <path d="M4 6L20 6" stroke="#fff" stroke-width="2" stroke-linecap="round"></path> </g></svg>
             </li>
 
@@ -97,7 +96,7 @@
           </ul>
 
           <!-- dropdown menu -->
-          <div class="js-dropdown-menu hidden absolute left-[10%] top-[130%] w-[9rem] h-fit border rounded-xl bg-[#AD9AAB59] px-2 py-2">
+          <div class="js-dropdown-menu hidden absolute left-[-50%] top-[130%] w-[9rem] h-fit border rounded-xl bg-[#AD9AAB59] px-2 py-2">
             <ul class="flex flex-col justify-center gap-3">
               <!-- dropdown Home -->
               <li class="js-nav-link-item flex items-center justify-center h-full w-max">
@@ -118,6 +117,13 @@
                 <a href="series.html" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
                 after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
                 hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">Series</a>
+              </li>
+
+              <!-- dropdown faq -->
+              <li class="js-nav-link-item flex items-center justify-center h-full w-max">
+                <a href="faq.html" class="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0
+                after:w-full after:h-[2px] after:bg-white after:scale-x-0 after:transition after:duration-300
+                hover:after:scale-x-100 hover:after:[box-shadow:0_0_12px_#ffffff,0_0_24px_#ffffff]">FAQ</a>
               </li>
             </ul>
           </div>
@@ -234,7 +240,7 @@
             <a href="https://www.themoviedb.org/" target="_blank" class="text-[#56CAF8] hover:underline">TMDB</a>
           </p>
           <p class="mb-2">
-            Developed by <span class="text-white font-semibold">Indra</span>
+            Developed by <span class="text-white font-semibold">Indra Y.K Kustiyanto</span>
           </p>
           <p class="text-xs text-gray-500">
             © 2025 Indra. All rights reserved.
