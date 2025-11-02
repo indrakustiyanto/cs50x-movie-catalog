@@ -30,6 +30,11 @@ CORS(app, origins=["https://themowvie.vercel.app"], supports_credentials=True)
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
 # routes
+@app.before_request
+def before_request():
+    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
+        url = request.url.replace('http://', 'https://', 1)
+        return '', 308, {'Location': url}
 
 # base endpoint homepage
 @app.route('/', methods=['GET'])
