@@ -19,7 +19,7 @@ initNav();
 // fetching genres from the backend
 async function fetchGenres() {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/genres/list');
+    const response = await axios.get('https://cs50x-movie-catalog-production.up.railway.app/genres/list');
     const genres = response.data.genres;
     return genres;
   }
@@ -141,7 +141,7 @@ submitButton.addEventListener('click', function(event) {
 // request data movie based on filters
 async function fetchFilteredMovies(filters, page = 1) {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/quick/search/tv', {params:{ ...filters, page}});
+    const response = await axios.get('https://cs50x-movie-catalog-production.up.railway.app/quick/search/tv', {params:{ ...filters, page}});
     const movies = response.data;
     document.querySelector('.js-error-handling').innerHTML = ""
     return movies;
@@ -230,7 +230,7 @@ submitButton.addEventListener('click', async function(event) {
 
 async function baseMovies(page = 1) {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/${type}`, {params: {page}});
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/${type}`, {params: {page}});
     const movies = response.data;
     return movies;
   }

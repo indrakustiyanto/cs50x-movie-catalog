@@ -20,7 +20,7 @@ initNav();
 // fetching main data
 async function mainFetch() {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/details/${movieId}/${type}`);
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/details/${movieId}/${type}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -187,7 +187,7 @@ overlay.addEventListener('click', (event) => {
 // getting movie image
 async function getImage() {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/details/${movieId}/${type}/images`);
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/details/${movieId}/${type}/images`);
     const result = response.data.backdrops;
     return result;
   } catch (error) {
@@ -271,7 +271,7 @@ genContainer.innerHTML += genres.map(genre => `
 // fecthing cast
 async function fetchCast() {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/credit/${type}/${movieId}`);
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/credit/${type}/${movieId}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -315,7 +315,7 @@ cast.cast.forEach(actor => {
 // fetching similiar movies
 async function fetchRecommendation() {
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/recomendation/${type}/${movieId}`);
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/recomendation/${type}/${movieId}`);
     return response.data.results;
   }
   catch (error) {

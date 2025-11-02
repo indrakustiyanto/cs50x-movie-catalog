@@ -79,7 +79,7 @@ const seriesSwiper = new Swiper('.js-series-swiper', {
 
 // fetch main
 async function fetchHero() {
-  const response = await axios.get('http://127.0.0.1:5000/')
+  const response = await axios.get('https://cs50x-movie-catalog-production.up.railway.app/')
   const index = response.data.results.slice(0, 10);
   const target = document.querySelector('.js-hero-swiper .swiper-wrapper');
   const movieDesc = document.querySelector('.js-sm-movie-desc');
@@ -123,7 +123,7 @@ fetchHero();
 async function listMovies(segmentation) {
   // fetch api
   try {
-    const response = await axios.get(`http://127.0.0.1:5000/${segmentation}`)
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/${segmentation}`)
     const movies = response.data.results;
     return movies;
   }

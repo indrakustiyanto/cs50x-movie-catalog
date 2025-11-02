@@ -15,7 +15,7 @@ initNav();
 console.log('page is underconstructions');
 
 async function mainData() {
-  const response = await axios.get(`http://127.0.0.1:5000/get/collections/${collectionId}`);
+  const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/get/collections/${collectionId}`);
   console.log(response.data);
   return response.data;
 }

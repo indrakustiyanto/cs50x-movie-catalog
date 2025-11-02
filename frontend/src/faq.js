@@ -7,7 +7,7 @@ initNav();
 
 // fetching main data faq
 async function getFAQ() {
-  const response = await axios.get('http://127.0.0.1:5000/get/faq');
+  const response = await axios.get('https://cs50x-movie-catalog-production.up.railway.app/get/faq');
   console.log(response.data);
   return response.data;
 }
