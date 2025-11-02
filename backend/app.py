@@ -23,8 +23,8 @@ Session(app)
 CORS(app, supports_credentials=True)
 
 # initialize database
-db_URL = os.getenv("DATABASE_URL")
-db = SQL(db_URL)
+# db_URL = os.getenv("DATABASE_URL")
+# db = SQL(db_URL)
 
 # third party API key
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
