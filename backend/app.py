@@ -13,10 +13,9 @@ load_dotenv()
 app = Flask(__name__)
 
 # config
-app.config['SESSION_TYPE'] = 'filesystem'
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = os.getenv("SESSION_TYPE")
+app.config["SESSION_TYPE"] = 'filesystem'
 app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
