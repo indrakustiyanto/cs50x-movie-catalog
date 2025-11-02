@@ -320,6 +320,7 @@ async function fetchRecommendation() {
   }
   catch (error) {
     console.error(error);
+    return [];
   }
 }
 
@@ -349,7 +350,7 @@ if (type === 'movie') {
 const recomendationTarget = document.querySelector('.js-similiar-swiper .swiper-wrapper');
 recomendationTarget.innerHTML = '';
 recomendations.forEach(item => {
-  if (item.poster_path != null) {
+  if (item.poster_path != null || recomendations.length === 0) {
     recomendationTarget.innerHTML += `
     <div class="swiper-slide !w-[9.5rem]">
       <a href="detailed.html?id=${item.id}&type=${item.media_type}">
