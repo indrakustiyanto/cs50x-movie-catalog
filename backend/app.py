@@ -118,7 +118,7 @@ def series():
 @app.route('/details/<int:movieId>/<string:type>')
 def movieDetails(movieId, type):
     
-    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US&append_to_response=videos"
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US&append_to_response=videos,similar"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
