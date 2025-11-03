@@ -315,7 +315,7 @@ cast.cast.forEach(actor => {
 // fetching similiar movies
 async function fetchRecommendation() {
   try {
-    const response = await axios.get(`https://themowviesimiliar-production.up.railway.app/recomendation/${type}/${movieId}`);
+    const response = await axios.get(`https://cs50x-movie-catalog-production.up.railway.app/recomendation/${type}/${movieId}`);
     return response.data.results;
   }
   catch (error) {
