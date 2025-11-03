@@ -37,6 +37,7 @@ function hour(data) {
 
 // GLOBAL VARIABLES
 const movie = await mainFetch();
+console.log(movie);
 
 // render main data
 async function renderMain() {  
