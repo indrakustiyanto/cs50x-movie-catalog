@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 from flask_session import Session
 from cs50 import SQL
@@ -31,10 +31,10 @@ TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
 # routes
 @app.before_request
-def before_request():
-    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
+def enforce_https():
+    if not request.is_secure and request.headers.get('X-Forwarded-Proto', '') != 'https':
         url = request.url.replace('http://', 'https://', 1)
-        return '', 308, {'Location': url}
+        return redirect(url, code=301)
 
 # base endpoint homepage
 @app.route('/', methods=['GET'])
@@ -157,7 +157,7 @@ def getMovieCredits(type, movieId):
 # details page: similiar movie/series enpoint
 @app.route('/recomendation/<string:type>/<int:movieId>/')
 def recomendationsMovieTv(type, movieId):
-    url = f"https://api.themoviedb.org/3/{type}/{movieId}/recommendations?language=en-US&page=1"
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}/similar?language=en-US&page=1"
     headers = {
         "accept" : "application/json",
         "Authorization" : f"Bearer {TMDB_ACCESS_TOKEN}"
