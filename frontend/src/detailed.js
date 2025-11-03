@@ -339,7 +339,7 @@ let recomendationSwiper = new Swiper('.js-similiar-swiper', {
 });
 
 // render recomendation
-const recomendations = await fetchRecommendation();
+const recomendations = movie.similar.results;
 console.log(recomendations);
 const subSimiliar = document.querySelector('.js-sub-similiar');
 if (type === 'movie') {
@@ -354,7 +354,7 @@ recomendations.forEach(item => {
   if (item.poster_path != null || recomendations.length === 0) {
     recomendationTarget.innerHTML += `
     <div class="swiper-slide !w-[9.5rem]">
-      <a href="detailed.html?id=${item.id}&type=${item.media_type}">
+      <a href="detailed.html?id=${item.id}&type=${type}">
         <div class="size-[8rem] mx-3">
           <img src="https://image.tmdb.org/t/p/w300/${item.poster_path}" alt="movie poster" class="w-full h-full object-cover rounded-lg">
           </div>
