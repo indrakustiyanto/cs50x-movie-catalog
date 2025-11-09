@@ -20,7 +20,7 @@ app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
 # enable CORS
-CORS(app, origins=["https://themowvie.vercel.app"], supports_credentials=True)
+CORS(app, origins=["https://themowvie.vercel.app","http://localhost:5173"], supports_credentials=True)
 
 # initialize database
 # db_URL = os.getenv("DATABASE_URL")
