@@ -294,6 +294,7 @@ let castSwiper = new Swiper(".js-cast-swiper", {
 
 // render cast
 const cast = await fetchCast();
+console.log(cast);
 const subCast = document.querySelector('.js-sub-cast');
 if (cast) {
   subCast.innerText = 'Characters';
@@ -304,11 +305,15 @@ cast.cast.forEach(actor => {
   if (actor.profile_path != null) {
     castTarget.innerHTML += `
     <div class="swiper-slide !w-[9.5rem]">
-      <div class="size-[8rem] mx-3">
-        <img src="https://image.tmdb.org/t/p/w300/${actor.profile_path}" alt="actor image" class="w-full h-full object-cover rounded-lg">
+    <a href="movies.html?cast=${actor.name}">
+      <div>
+        <div class="size-[8rem] mx-3">
+          <img src="https://image.tmdb.org/t/p/w300/${actor.profile_path}" alt="actor image" class="w-full h-full object-cover rounded-lg">
+        </div>
+        <p class="text-white text-sm text-center mt-2 line-clamp-1">${actor.name}</p>
+        <p class="text-gray-400 text-xs text-center mt-1 line-clamp-1 overflow-hidden">${actor.character}</p>
       </div>
-      <p class="text-white text-sm text-center mt-2 line-clamp-1">${actor.name}</p>
-      <p class="text-gray-400 text-xs text-center mt-1 line-clamp-1 overflow-hidden">${actor.character}</p>
+    </a>
     </div>`;
   }
 });

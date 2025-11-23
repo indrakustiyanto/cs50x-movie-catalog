@@ -22,10 +22,6 @@ Session(app)
 # enable CORS
 CORS(app, origins=["https://themowvie.vercel.app","http://localhost:5173"], supports_credentials=True)
 
-# initialize database
-# db_URL = os.getenv("DATABASE_URL")
-# db = SQL(db_URL)
-
 # third party API key
 TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN")
 
@@ -118,7 +114,7 @@ def series():
 @app.route('/details/<int:movieId>/<string:type>')
 def movieDetails(movieId, type):
     
-    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US&append_to_response=videos,similar"
+    url = f"https://api.themoviedb.org/3/{type}/{movieId}?language=en-US&append_to_response=videos,recomendations"
     headers = {
         "accept" : "application/json",
         "Authorization" : f'Bearer {TMDB_ACCESS_TOKEN}'
@@ -202,7 +198,6 @@ def filters():
 
     params = {
         'language': "en-US",
-        'include_adult' : 'false',
     }
 
     headers = {
