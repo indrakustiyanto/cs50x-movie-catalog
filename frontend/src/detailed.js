@@ -344,7 +344,7 @@ let recomendationSwiper = new Swiper('.js-similiar-swiper', {
 });
 
 // render recomendation
-const recomendations = movie.similar.results;
+const recomendations = movie.recommendations.results;
 console.log(recomendations);
 const subSimiliar = document.querySelector('.js-sub-similiar');
 if (type === 'movie') {
