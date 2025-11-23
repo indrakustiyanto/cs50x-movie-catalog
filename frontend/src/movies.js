@@ -9,9 +9,14 @@ import { countryIso, countries } from './country.js';
 // init params
 const param = new URLSearchParams(window.location.search);
 let type = param.get('type');
+let cast = param.get('cast');
 if (!type) {
   type = 'trending';
 };
+
+if(cast) {
+  document.getElementById('filter-actor').value = cast;
+}
 
 // Initialize navigation functionality
 initNav();
@@ -119,7 +124,8 @@ const filterSearchInput = document.getElementById('filter-search');
 // collecting data on submit
 const filters= {};
 const submitButton = document.getElementById('js-filter-search-button');
-submitButton.addEventListener('click', function(event) {
+const filter_search_form = document.getElementById('filter-search');
+function submitFilters(event) {
   event.preventDefault();
   filters.year = filterYearInput.value;
   filters.country = filterCountryInput.value;
@@ -135,7 +141,15 @@ submitButton.addEventListener('click', function(event) {
     if (!filters[key]) delete filters[key]; 
   });
   console.log('Filters to apply after cleanup: ', filters);
+};
+
+submitButton.addEventListener('click', submitFilters);
+filter_search_form.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    submitFilters(event);
+  }
 });
+  
 
 
 // request data movie based on filters
@@ -193,7 +207,7 @@ async function loadMore(event) {
 
 // render filtered movie functionality
 const moviesContainer = document.querySelector('.js-movies-template');
-submitButton.addEventListener('click', async function(event) {
+async function renderFiltered(event) {
   event.preventDefault();
   const movies = await fetchFilteredMovies(filters);
   if (movies) {
@@ -224,7 +238,18 @@ submitButton.addEventListener('click', async function(event) {
     loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
     document.querySelector('.js-load-more').addEventListener('click', loadMore);
   }
+};
+
+submitButton.addEventListener('click', renderFiltered);
+
+document.getElementById('filter-search').addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    renderFiltered(event);
+    console.log('enter key pressed');
+  }
 });
+
+  
 
 // request render base movie (movies tabs)
 
@@ -241,7 +266,13 @@ async function baseMovies(page = 1) {
 
 // render base movie 
 async function renderBase() {
-  const movies = await baseMovies()
+  let movies;
+  if (cast) {
+    filters.actor = cast;
+    movies = await fetchFilteredMovies(filters);
+  } else {
+    movies = await baseMovies();
+  }
   if (movies) {
     totalMoviesPages = movies.total_pages;
     currentpage = 1;
@@ -264,7 +295,9 @@ async function renderBase() {
     }
   })
   
-  isfiltered = true;
+  if(!cast) {
+    isfiltered = true;
+  }
   if (movies) {
     const loadMoreContainer = document.querySelector('.js-load-more');
     loadMoreContainer.innerHTML = `<button class="js-load-more-button bg-[#f338e0] text-white px-6 py-3 rounded-md hover:bg-pink-600 active:bg-pink-700 mt-6 w-[80%] max-md:w-[95%]">Load More</button>`;
